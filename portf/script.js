@@ -368,25 +368,59 @@ function renderProjects() {
 }
 
 function renderSkills() {
+    const skillIcons = {
+        "C# / .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+        "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
+        "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+        "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg",
+        "HTML/CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+        "SQL Server": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg",
+        "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+        "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+        "AWS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+        "Git / GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
+        "Linux": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg"
+    };
+
     skillsGrid.innerHTML = SKILLS_DATA.map(group => {
         const data = group[currentLang];
         return `
-        <div class="glass-card rounded-xl p-6">
-            <div class="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
-                <div class="p-2 bg-slate-800 rounded-lg text-cyan-400">
+        <div class="glass-card rounded-2xl p-6 flex flex-col relative overflow-hidden group">
+            <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-colors"></div>
+            
+            <div class="flex items-center gap-3 mb-6 relative z-10">
+                <div class="p-2.5 bg-slate-800/80 rounded-xl text-cyan-400 border border-slate-700/50 shadow-inner">
                     <i data-lucide="${group.icon}" class="w-5 h-5"></i>
                 </div>
-                <h3 class="text-lg font-bold text-white">${data.category}</h3>
+                <h3 class="text-lg font-bold text-white tracking-wide">${data.category}</h3>
             </div>
-            <div class="flex flex-wrap gap-3">
+            
+            <div class="flex flex-col gap-3 relative z-10">
                 ${group.skills.map(skill => {
             const level = currentLang === 'es' ? skill.level_es : skill.level_en;
             const isAdvanced = level === 'Avanzado' || level === 'Advanced';
+            const iconUrl = skillIcons[skill.name];
+            const iconTag = iconUrl ? `<img src="${iconUrl}" class="w-5 h-5 ${skill.name === 'Git / GitHub' || skill.name === 'AWS' || skill.name === 'Go' ? 'invert opacity-90' : ''}" alt="${skill.name}">` : `<div class="w-5 h-5 rounded-full bg-slate-700"></div>`;
+
+            let dots = '';
+            let dotCount = isAdvanced ? 3 : (level === 'Intermedio' || level === 'Intermediate' ? 2 : 1);
+            for (let i = 0; i < 3; i++) {
+                dots += `<div class="w-1.5 h-1.5 rounded-full ${i < dotCount ? (isAdvanced ? 'bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.5)]' : 'bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.5)]') : 'bg-slate-700'}"></div>`;
+            }
+
             return `
-                    <div class="px-3 py-1.5 bg-slate-900/80 border border-slate-700/50 rounded-lg flex items-center gap-2">
-                        <span class="text-sm font-medium text-slate-300">${skill.name}</span>
-                        <span class="text-[10px] uppercase font-mono tracking-wider ${isAdvanced ? 'text-emerald-400' : 'text-cyan-400'
-                }">${level}</span>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-cyan-500/30 hover:bg-slate-800/40 transition-all group/skill">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-950/50 flex items-center justify-center border border-slate-800 group-hover/skill:border-slate-700 transition-colors">
+                                ${iconTag}
+                            </div>
+                            <span class="text-sm font-medium text-slate-300 group-hover/skill:text-white transition-colors">${skill.name}</span>
+                        </div>
+                        <div class="flex flex-col items-end gap-1.5">
+                            <span class="text-[10px] uppercase font-mono tracking-wider text-slate-500 group-hover/skill:text-slate-400 transition-colors">${level}</span>
+                            <div class="flex gap-1">${dots}</div>
+                        </div>
                     </div>
                 `}).join('')}
             </div>
