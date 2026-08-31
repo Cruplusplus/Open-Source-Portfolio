@@ -84,7 +84,7 @@ function renderProjects() {
                     ${data.category}
                 </div>
                 <div class="flex gap-2 text-slate-400">
-                    ${hasGithub ? `<a href="${project.githubUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" rel="noopener noreferrer" title="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}
+                    ${hasGithub ? `<a href="${project.githubUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-5 h-5 invert opacity-80 hover:opacity-100 transition-opacity"></a>` : ''}
                     ${hasDemo ? `<a href="${project.liveDemoUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" rel="noopener noreferrer" title="Demo"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
                 </div>
             </div>
@@ -102,7 +102,7 @@ function renderProjects() {
             <div class="flex items-center gap-3 pt-4 border-t border-slate-800/50 mt-auto">
                 ${hasGithub ? `
                     <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-slate-700">
-                        <i data-lucide="github" class="w-4 h-4 text-cyan-400"></i> ${I18N[currentLang].btn_code}
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-4 h-4 invert"> ${I18N[currentLang].btn_code}
                     </a>
                 ` : ''}
                 ${hasDemo ? `

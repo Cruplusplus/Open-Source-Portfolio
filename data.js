@@ -62,7 +62,7 @@ const PROJECTS_DATA = [
         },
         tags: ["C++", "SFML", "GitHub", "JSON"],
         githubUrl: "https://github.com/Cruplusplus/TP-Programacion-2.-Extendible-map-RPG-in-C-",
-        liveDemoUrl: "#"
+        liveDemoUrl: ""
     },
     {
         id: 2,
@@ -170,7 +170,7 @@ const TIMELINE_DATA = [
         active: true
     },
     {
-        period: "2026 - ~Dic2026 (Cursando)",
+        period: "Ago2026 - ~Nov2026 (Cursando)",
         es: {
             role: "Curso Python",
             company: "",
