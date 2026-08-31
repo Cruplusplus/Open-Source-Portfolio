@@ -1,8 +1,11 @@
 /*!
- * Portfolio Website Template
- * Designed & Developed by Juan Cruz Dominguez Pistoia
- * GitHub: https://github.com/Cruplusplus/Open-Source-Portfolio
- */
+  ========================================================
+  * Portfolio Web Template
+  * Diseñado y desarrollado por: Juan Cruz Dominguez Pistoia
+  * GitHub: https://github.com/Cruplusplus/Open-Source-Portfolio
+  * Proyecto Open Source
+  ========================================================
+*/
 
 const I18N = {
     es: {
@@ -248,4 +251,3 @@ const TIMELINE_DATA = [
         active: false
     }
 ];
-

@@ -1,11 +1,19 @@
+/*!
+  ========================================================
+  * Portfolio Web Template
+  * Diseñado y desarrollado por: Juan Cruz Dominguez Pistoia
+  * GitHub: https://github.com/Cruplusplus/Open-Source-Portfolio
+  * Proyecto Open Source
+  ========================================================
+*/
+
 let currentLang = 'es';
 let currentFilter = 'All';
 
 function setLanguage(lang) {
     currentLang = lang;
-    document.documentElement.lang = lang; // Accessibility: Update HTML lang attribute
+    document.documentElement.lang = lang;
 
-    // Update UI buttons
     const btnEs = document.getElementById('btn-lang-es');
     const btnEn = document.getElementById('btn-lang-en');
 
@@ -19,7 +27,6 @@ function setLanguage(lang) {
         currentFilter = I18N['en'].filter_all;
     }
 
-    // Update static translations
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (I18N[lang][key]) {
@@ -42,14 +49,13 @@ function renderFilters() {
     const allLabel = I18N[currentLang].filter_all;
     const categories = [allLabel, ...new Set(PROJECTS_DATA.map(p => p[currentLang].category))];
 
-    // If current filter is not in the new language's categories, reset to All
     if (!categories.includes(currentFilter)) {
         currentFilter = allLabel;
     }
 
     filtersContainer.innerHTML = categories.map(cat => `
-        <button 
-            onclick="filterProjects('${cat}')" 
+        <button
+            onclick="filterProjects('${cat}')"
             class="px-4 py-1.5 rounded-full text-sm font-mono transition-all ${currentFilter === cat
             ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.2)]'
             : 'bg-slate-800/50 text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-slate-300'
@@ -88,13 +94,13 @@ function renderProjects() {
                     ${hasDemo ? `<a href="${project.liveDemoUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" rel="noopener noreferrer" title="Demo"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
                 </div>
             </div>
-            
+
             <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
                 ${hasGithub ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-2">${data.title}</a>` : data.title}
             </h3>
-            
+
             <p class="text-slate-400 text-sm mb-6 flex-grow">${data.summary}</p>
-            
+
             <div class="flex flex-wrap gap-2 mb-4">
                 ${project.tags.map(tag => `<span class="text-xs font-mono text-slate-300 bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">#${tag}</span>`).join('')}
             </div>
@@ -138,14 +144,14 @@ function renderSkills() {
         return `
         <div class="glass-card rounded-2xl p-6 flex flex-col relative overflow-hidden group">
             <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-colors"></div>
-            
+
             <div class="flex items-center gap-3 mb-6 relative z-10">
                 <div class="p-2.5 bg-slate-800/80 rounded-xl text-cyan-400 border border-slate-700/50 shadow-inner">
                     <i data-lucide="${group.icon}" class="w-5 h-5"></i>
                 </div>
                 <h3 class="text-lg font-bold text-white tracking-wide">${data.category}</h3>
             </div>
-            
+
             <div class="flex flex-col gap-3 relative z-10">
                 ${group.skills.map(skill => {
             const level = currentLang === 'es' ? skill.level_es : skill.level_en;
@@ -251,7 +257,7 @@ window.copyEmail = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     currentFilter = I18N[currentLang].filter_all;
-    setLanguage('es'); // Initializes everything
+    setLanguage('es');
 
     console.log(
         "%cPortfolio Template creado por Juan Cruz Dominguez Pistoia %c\n GitHub: https://github.com/Cruplusplus",
