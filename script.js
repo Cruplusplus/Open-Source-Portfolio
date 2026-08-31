@@ -334,13 +334,13 @@ function renderProjects() {
                     ${data.category}
                 </div>
                 <div class="flex gap-2 text-slate-400">
-                    ${hasGithub ? `<a href="${project.githubUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" title="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}
-                    ${hasDemo ? `<a href="${project.liveDemoUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" title="Demo"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
+                    ${hasGithub ? `<a href="${project.githubUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" rel="noopener noreferrer" title="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}
+                    ${hasDemo ? `<a href="${project.liveDemoUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" rel="noopener noreferrer" title="Demo"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
                 </div>
             </div>
             
             <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
-                ${hasGithub ? `<a href="${project.githubUrl}" target="_blank" class="hover:underline flex items-center gap-2">${data.title}</a>` : data.title}
+                ${hasGithub ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-2">${data.title}</a>` : data.title}
             </h3>
             
             <p class="text-slate-400 text-sm mb-6 flex-grow">${data.summary}</p>
@@ -351,12 +351,12 @@ function renderProjects() {
 
             <div class="flex items-center gap-3 pt-4 border-t border-slate-800/50 mt-auto">
                 ${hasGithub ? `
-                    <a href="${project.githubUrl}" target="_blank" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-slate-700">
+                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-slate-700">
                         <i data-lucide="github" class="w-4 h-4 text-cyan-400"></i> ${I18N[currentLang].btn_code}
                     </a>
                 ` : ''}
                 ${hasDemo ? `
-                    <a href="${project.liveDemoUrl}" target="_blank" class="px-3.5 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-cyan-500/30">
+                    <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-cyan-500/30">
                         <i data-lucide="external-link" class="w-4 h-4"></i> ${I18N[currentLang].btn_demo}
                     </a>
                 ` : ''}
@@ -433,7 +433,7 @@ function renderTimeline() {
         const data = item[currentLang];
         const imgTag = item.img ? `<img src="${item.img}" alt="Logo" class="h-8 w-auto rounded-sm object-contain bg-slate-100/10 p-1">` : '';
         const linkText = currentLang === 'es' ? 'Ver certificado' : 'View certificate';
-        const linkTag = item.link ? `<a href="${item.link}" target="_blank" class="text-cyan-400 hover:underline text-sm inline-flex items-center gap-1 mt-2">${linkText} <i data-lucide="external-link" class="w-3 h-3"></i></a>` : '';
+        const linkTag = item.link ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline text-sm inline-flex items-center gap-1 mt-2">${linkText} <i data-lucide="external-link" class="w-3 h-3"></i></a>` : '';
 
         let progressTag = '';
         if (item.progress) {
