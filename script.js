@@ -254,6 +254,7 @@ let currentFilter = 'All';
 
 function setLanguage(lang) {
     currentLang = lang;
+    document.documentElement.lang = lang; // Accessibility: Update HTML lang attribute
 
     // Update UI buttons
     const btnEs = document.getElementById('btn-lang-es');
