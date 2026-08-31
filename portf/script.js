@@ -1,7 +1,7 @@
 /*!
  * Portfolio Website Template
  * Designed & Developed by Juan Cruz Dominguez Pistoia
- * GitHub: https://github.com/Cruplusplus
+ * GitHub: https://github.com/Cruplusplus/Open-Source-Portfolio
  */
 
 const I18N = {
@@ -20,7 +20,9 @@ const I18N = {
         section_stack: "Stack & Habilidades",
         section_path: "Trayectoria",
         footer_text: "Proyecto de portafolio para uso personal open source",
-        filter_all: "Todos"
+        filter_all: "Todos",
+        btn_code: "Ver Repositorio",
+        btn_demo: "Ver Demo"
     },
     en: {
         nav_start: "Home",
@@ -37,7 +39,9 @@ const I18N = {
         section_stack: "Stack & Skills",
         section_path: "Experience",
         footer_text: "Creating scalable and efficient software.",
-        filter_all: "All"
+        filter_all: "All",
+        btn_code: "View Repo",
+        btn_demo: "Live Demo"
     }
 };
 
@@ -91,7 +95,7 @@ const PROJECTS_DATA = [
             summary: "Creation of a portfolio to put into practice the knowledge acquired in HTML/CSS and JavaScript courses."
         },
         tags: ["HTML/CSS", "JavaScript", "GitHub"],
-        githubUrl: "#",
+        githubUrl: "https://github.com/Cruplusplus/Open-Source-Portfolio",
         liveDemoUrl: ""
     }
 ];
@@ -320,6 +324,9 @@ function renderProjects() {
 
     projectsGrid.innerHTML = filtered.map(project => {
         const data = project[currentLang];
+        const hasGithub = project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '';
+        const hasDemo = project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl !== '';
+
         return `
         <div class="glass-card rounded-xl p-6 flex flex-col h-full group animate-fade-in">
             <div class="flex justify-between items-start mb-4">
@@ -327,14 +334,32 @@ function renderProjects() {
                     ${data.category}
                 </div>
                 <div class="flex gap-2 text-slate-400">
-                    ${project.githubUrl && project.githubUrl !== '#' ? `<a href="${project.githubUrl}" class="hover:text-cyan-400 transition-colors" target="_blank"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}
-                    ${project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl !== '' ? `<a href="${project.liveDemoUrl}" class="hover:text-cyan-400 transition-colors" target="_blank"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
+                    ${hasGithub ? `<a href="${project.githubUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" title="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}
+                    ${hasDemo ? `<a href="${project.liveDemoUrl}" class="hover:text-cyan-400 transition-colors" target="_blank" title="Demo"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
                 </div>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">${data.title}</h3>
+            
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                ${hasGithub ? `<a href="${project.githubUrl}" target="_blank" class="hover:underline flex items-center gap-2">${data.title}</a>` : data.title}
+            </h3>
+            
             <p class="text-slate-400 text-sm mb-6 flex-grow">${data.summary}</p>
-            <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-slate-800/50">
-                ${project.tags.map(tag => `<span class="text-xs font-mono text-slate-200">#${tag}</span>`).join('')}
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+                ${project.tags.map(tag => `<span class="text-xs font-mono text-slate-300 bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">#${tag}</span>`).join('')}
+            </div>
+
+            <div class="flex items-center gap-3 pt-4 border-t border-slate-800/50 mt-auto">
+                ${hasGithub ? `
+                    <a href="${project.githubUrl}" target="_blank" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-slate-700">
+                        <i data-lucide="github" class="w-4 h-4 text-cyan-400"></i> ${I18N[currentLang].btn_code}
+                    </a>
+                ` : ''}
+                ${hasDemo ? `
+                    <a href="${project.liveDemoUrl}" target="_blank" class="px-3.5 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-cyan-500/30">
+                        <i data-lucide="external-link" class="w-4 h-4"></i> ${I18N[currentLang].btn_demo}
+                    </a>
+                ` : ''}
             </div>
         </div>
     `}).join('');
@@ -443,9 +468,9 @@ window.copyEmail = () => {
 document.addEventListener('DOMContentLoaded', () => {
     currentFilter = I18N[currentLang].filter_all;
     setLanguage('es'); // Initializes everything
-    
+
     console.log(
-        "%c⚡ Portfolio Template creado por Juan Cruz Dominguez Pistoia %c\n👉 GitHub: https://github.com/Cruplusplus",
+        "%cPortfolio Template creado por Juan Cruz Dominguez Pistoia %c\n GitHub: https://github.com/Cruplusplus",
         "background: #080c14; color: #06b6d4; font-size: 13px; font-weight: bold; padding: 6px 10px; border: 1px solid #06b6d4; border-radius: 4px;",
         "color: #94a3b8; font-size: 11px; padding: 4px;"
     );
