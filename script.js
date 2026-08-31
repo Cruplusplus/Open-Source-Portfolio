@@ -106,7 +106,7 @@ const SKILLS_DATA = [
         es: { category: "Lenguajes de Programación" },
         en: { category: "Programming Languages" },
         skills: [
-            { name: "C# / .NET", level_es: "Avanzado", level_en: "Advanced" },
+            { name: "C# & .NET", level_es: "Avanzado", level_en: "Advanced" },
             { name: "C++", level_es: "Avanzado", level_en: "Advanced" },
             { name: "Python", level_es: "Intermedio", level_en: "Intermediate" },
             { name: "Go", level_es: "Principiante", level_en: "Beginner" },
@@ -369,7 +369,7 @@ function renderProjects() {
 
 function renderSkills() {
     const skillIcons = {
-        "C# / .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+        "C# & .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
         "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
         "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
         "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg",
