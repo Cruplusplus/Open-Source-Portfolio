@@ -85,9 +85,9 @@ const PROJECTS_DATA = [
         id: 3,
         es:
         {
-            title: "Portafolio",
+            title: "<code>&lt;port/f&gt;</code>",
             category: "Desarrollo Web",
-            summary: "Creación de un portafolio para poner en práctica lo aprendido en cursos de HTML/CSS y JavaScript"
+            summary: "Es esta página que estas viendo :). Creación de un portafolio para poner en práctica lo aprendido en cursos de HTML/CSS y JavaScript"
         },
         en: {
             title: "Portfolio",
