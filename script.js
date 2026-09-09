@@ -138,6 +138,8 @@ async function translateAllData(toLang = 'en') {
         addToQueue(d.desc);
     });
 
+    Object.values(I18N).forEach(val => addToQueue(val));
+
     if (queue.length > 0) {
         for (const text of queue) {
             await translateText(text, 'es', toLang);
@@ -145,6 +147,7 @@ async function translateAllData(toLang = 'en') {
         }
 
         if (currentLang === toLang) {
+            updateI18nDOM();
             renderFilters();
             renderProjects();
             renderSkills();
@@ -152,6 +155,22 @@ async function translateAllData(toLang = 'en') {
         }
     }
     isTranslating = false;
+}
+
+function getI18nText(key) {
+    const baseText = I18N[key];
+    if (!baseText) return "";
+    if (currentLang === 'es') return baseText;
+    
+    const cacheKey = `es_en_${baseText.trim()}`;
+    return TRANSLATION_CACHE[cacheKey] || baseText;
+}
+
+function updateI18nDOM() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.innerHTML = getI18nText(key);
+    });
 }
 
 function setLanguage(lang) {
@@ -164,20 +183,14 @@ function setLanguage(lang) {
     if (lang === 'es') {
         btnEs.className = "px-3 py-1 text-xs font-bold rounded-full transition-colors bg-cyan-500/20 text-cyan-400";
         btnEn.className = "px-3 py-1 text-xs font-bold rounded-full transition-colors text-slate-400 hover:text-white";
-        currentFilter = I18N['es'].filter_all;
+        currentFilter = getI18nText('filter_all');
     } else {
         btnEn.className = "px-3 py-1 text-xs font-bold rounded-full transition-colors bg-cyan-500/20 text-cyan-400";
         btnEs.className = "px-3 py-1 text-xs font-bold rounded-full transition-colors text-slate-400 hover:text-white";
-        currentFilter = I18N['en'].filter_all;
+        currentFilter = getI18nText('filter_all');
     }
 
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (I18N[lang] && I18N[lang][key]) {
-            el.innerHTML = I18N[lang][key];
-        }
-    });
-
+    updateI18nDOM();
     renderFilters();
     renderProjects();
     renderSkills();
@@ -194,7 +207,7 @@ const skillsGrid = document.getElementById('skills-grid');
 const timelineContainer = document.getElementById('timeline-container');
 
 function renderFilters() {
-    const allLabel = I18N[currentLang].filter_all;
+    const allLabel = getI18nText('filter_all');
     const categories = [allLabel, ...new Set(PROJECTS_DATA.map(p => getItemData(p).category).filter(Boolean))];
 
     if (!categories.includes(currentFilter)) {
@@ -221,7 +234,7 @@ window.filterProjects = (category) => {
 };
 
 function renderProjects() {
-    const allLabel = I18N[currentLang].filter_all;
+    const allLabel = getI18nText('filter_all');
     const filtered = currentFilter === allLabel
         ? PROJECTS_DATA
         : PROJECTS_DATA.filter(p => getItemData(p).category === currentFilter);
@@ -256,12 +269,12 @@ function renderProjects() {
             <div class="flex items-center gap-3 pt-4 border-t border-slate-800/50 mt-auto">
                 ${hasGithub ? `
                     <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-slate-700">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-4 h-4 invert"> ${I18N[currentLang].btn_code}
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-4 h-4 invert"> ${getI18nText('btn_code')}
                     </a>
                 ` : ''}
                 ${hasDemo ? `
                     <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-cyan-500/30">
-                        <i data-lucide="external-link" class="w-4 h-4"></i> ${I18N[currentLang].btn_demo}
+                        <i data-lucide="external-link" class="w-4 h-4"></i> ${getI18nText('btn_demo')}
                     </a>
                 ` : ''}
             </div>
@@ -424,7 +437,7 @@ window.copyEmail = () => {
         const btnCard = document.getElementById('btn-copy-email-card');
         if (btnCard) {
             const originalHTML = btnCard.innerHTML;
-            btnCard.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> <span class="text-emerald-400">${I18N[currentLang].copied_email || '¡Copiado!'}</span>`;
+            btnCard.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> <span class="text-emerald-400">${getI18nText('copied_email') || '¡Copiado!'}</span>`;
             if (window.lucide) lucide.createIcons();
             setTimeout(() => {
                 btnCard.innerHTML = originalHTML;
@@ -435,7 +448,7 @@ window.copyEmail = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    currentFilter = I18N[currentLang].filter_all;
+    currentFilter = getI18nText('filter_all');
     setLanguage('es');
 
     console.log(
