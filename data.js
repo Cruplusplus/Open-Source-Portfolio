@@ -10,7 +10,7 @@
 const I18N = {
     nav_start: "Inicio",
     nav_projects: "Proyectos",
-    nav_stack: "Stack",
+    nav_stack: "Stack y Habilidades",
     nav_path: "Trayectoria",
     nav_contact: "Contacto",
     btn_cv: "CV",
