@@ -61,6 +61,15 @@ const PROJECTS_DATA = [
         tags: ["HTML/CSS", "JavaScript", "GitHub"],
         githubUrl: "https://github.com/Cruplusplus/Open-Source-Portfolio",
         liveDemoUrl: ""
+    },
+    {
+        id: 4,
+        title: "Economy Bot in Python",
+        category: "Backend",
+        summary: "Bot de discord hecho con discord.py, trabajado api rest, aiohttp, discord.py y consultas con async",
+        tags: ["Python", "aiohttp", "API", "GitHub"],
+        githubUrl: "https://github.com/Cruplusplus/Discord-Economy-Bot",
+        liveDemoUrl: ""
     }
 ];
 
