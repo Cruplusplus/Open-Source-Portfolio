@@ -48,27 +48,27 @@ const PROJECTS_DATA = [
         id: 2,
         title: "Sistema de Gestión de Gimnasio y Club",
         category: "Bases de Datos",
-        summary: "Diseño e implementación de una base de datos relacional para un Sistema de Gestión de Gimnasio y Club Deportivo. El sistema está desarrollado bajo el motor SQL Server sobre contenedores Docker.",
-        tags: ["SQL Server", "Docker", "GitHub"],
+        summary: "Diseño, implementación e integración web de una base de datos relacional para un Sistema de Gestión de Gimnasio y Club Deportivo. El sistema está desarrollado bajo el motor SQL Server sobre contenedores Docker.",
+        tags: ["SQL Server", "C#", ".NET", "Docker", "GitHub"],
         githubUrl: "https://github.com/Cruplusplus/UTNFRGP-TUP-BD2-TPI-G17",
         liveDemoUrl: ""
     },
     {
         id: 3,
-        title: "<code>&lt;port/f&gt;</code>",
-        category: "Desarrollo Web",
-        summary: "Es esta página que estás viendo :). Creación de un portafolio para poner en práctica lo aprendido en cursos de HTML/CSS y JavaScript.",
-        tags: ["HTML/CSS", "JavaScript", "GitHub"],
-        githubUrl: "https://github.com/Cruplusplus/Open-Source-Portfolio",
-        liveDemoUrl: ""
-    },
-    {
-        id: 4,
         title: "Economy Bot in Python",
         category: "Backend",
         summary: "Bot de discord hecho con discord.py, trabajado api rest, aiohttp, discord.py y consultas con async",
         tags: ["Python", "aiohttp", "API", "GitHub"],
         githubUrl: "https://github.com/Cruplusplus/Discord-Economy-Bot",
+        liveDemoUrl: ""
+    },
+    {
+        id: 4,
+        title: "<code>&lt;port/f&gt;</code>",
+        category: "Desarrollo Web",
+        summary: "Es esta página que estás viendo :). Creación de un portafolio para poner en práctica lo aprendido en cursos de HTML/CSS y JavaScript.",
+        tags: ["HTML/CSS", "JavaScript", "GitHub"],
+        githubUrl: "https://github.com/Cruplusplus/Open-Source-Portfolio",
         liveDemoUrl: ""
     }
 ];
