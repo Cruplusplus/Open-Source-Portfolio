@@ -38,6 +38,7 @@ Open-Source-Portfolio/
 ├── data.js          # Datos estáticos (Proyectos, Habilidades, Trayectoria, Traducciones)
 └── sources/         # Recursos locales (Fotografía de perfil, CV en PDF)
     ├── Portrait.png
+    ├── MiCV.pdf
     └── MyResume.pdf
 ```
 

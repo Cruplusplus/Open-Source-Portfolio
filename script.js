@@ -190,6 +190,11 @@ function setLanguage(lang) {
         currentFilter = getI18nText('filter_all');
     }
 
+    const cvPath = lang === 'es' ? 'sources/MiCV.pdf' : 'sources/MyResume.pdf';
+    document.querySelectorAll('[data-cv-link]').forEach(el => {
+        el.setAttribute('href', cvPath);
+    });
+
     updateI18nDOM();
     renderFilters();
     renderProjects();

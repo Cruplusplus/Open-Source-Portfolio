@@ -37,11 +37,11 @@ const I18N = {
 const PROJECTS_DATA = [
     {
         id: 1,
-        title: "Videojuego Roguelike en 2D",
+        title: "Economy Bot in Python",
         category: "Backend",
-        summary: "Simulador de mapa extensible y lógica RPG desarrollado en C++ utilizando la librería SFML. Este proyecto fue creado como trabajo integrador para la materia Programación II (UTN), enfocado en la aplicación de conceptos avanzados de programación orientada a objetos y gestión de recursos.",
-        tags: ["C++", "SFML", "GitHub", "JSON"],
-        githubUrl: "https://github.com/Cruplusplus/TP-Programacion-2.-Extendible-map-RPG-in-C-",
+        summary: "Bot de discord hecho con discord.py, trabajado api rest, aiohttp, discord.py y consultas con async",
+        tags: ["Python", "aiohttp", "API", "GitHub"],
+        githubUrl: "https://github.com/Cruplusplus/Discord-Economy-Bot",
         liveDemoUrl: ""
     },
     {
@@ -55,11 +55,11 @@ const PROJECTS_DATA = [
     },
     {
         id: 3,
-        title: "Economy Bot in Python",
+        title: "Videojuego Roguelike en 2D",
         category: "Backend",
-        summary: "Bot de discord hecho con discord.py, trabajado api rest, aiohttp, discord.py y consultas con async",
-        tags: ["Python", "aiohttp", "API", "GitHub"],
-        githubUrl: "https://github.com/Cruplusplus/Discord-Economy-Bot",
+        summary: "Simulador de mapa extensible y lógica RPG desarrollado en C++ utilizando la librería SFML. Este proyecto fue creado como trabajo integrador para la materia Programación II (UTN), enfocado en la aplicación de conceptos avanzados de programación orientada a objetos y gestión de recursos.",
+        tags: ["C++", "SFML", "GitHub", "JSON"],
+        githubUrl: "https://github.com/Cruplusplus/TP-Programacion-2.-Extendible-map-RPG-in-C-",
         liveDemoUrl: ""
     },
     {
@@ -124,6 +124,21 @@ Integración de conocimientos en proyectos reales mediante laboratorios y práct
         img: "https://upload.wikimedia.org/wikipedia/commons/6/67/UTN_logo.jpg",
         link: "",
         active: true
+    },
+    {
+        period: "2026",
+        role: "Curso de Desarrollo con IA (Finalizado)",
+        company: "BIG School",
+        desc: `El curso se centra en aprender desarrollo de software apoyándose en herramientas de inteligencia artificial, no en copiar código.
+Enseña a usar NotebookLM como asistente de estudio y documentación para developers.
+Ofrece una guía práctica sobre Cursor para programar con IA de forma eficiente.
+Incluye el uso de Google Antigravity orientado al perfil developer.
+Explica la "regla de los 3 contextos" para trabajar con IA sin perder claridad ni control.
+Aborda la fatiga por IA y cómo gestionarla mediante una infografía práctica.
+Todo el contenido llega a través de una comunidad privada de WhatsApp, con consejos, noticias y regalos exclusivos.`,
+        img: "https://thebigschool.com/wp-content/uploads/2024/09/BigSchool_Logo_white.svg",
+        link: "https://thebigschool.com/curso-de-desarrollo-ia-eg/",
+        active: false
     },
     {
         period: "Ago2026 - ~Nov2026 (Cursando)",
