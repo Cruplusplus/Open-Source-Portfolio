@@ -1,23 +1,33 @@
-/*!
-  ========================================================
-  * Portfolio Web Template
-  * Diseñado y desarrollado por: Juan Cruz Dominguez Pistoia
-  * GitHub: https://github.com/Cruplusplus/Open-Source-Portfolio
-  * Proyecto Open Source
-  ========================================================
-*/
-
 let currentLang = 'es';
 let currentFilter = 'All';
 
-// LocalStorage translation cache
 const TRANSLATION_CACHE = JSON.parse(localStorage.getItem('auto_translation_cache') || '{}');
+
+const SKILL_ICONS = {
+    "C# & .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+    "C# / .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+    "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
+    "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+    "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg",
+    "HTML/CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    "HTML5 / CSS3": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+    "SQL Server": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg",
+    "SQL Server (T-SQL)": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg",
+    "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+    "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+    "AWS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+    "AWS Fundamentals": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+    "Git / GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
+    "Git & GitHub Workflow": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
+    "Linux": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg",
+    "Linux / Shell": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg"
+};
 
 async function translateText(text, fromLang = 'es', toLang = 'en') {
     if (!text || typeof text !== 'string' || !text.trim()) return text;
     const cleanText = text.trim();
 
-    // Preserve code blocks like <code>&lt;port/f&gt;</code> as is
     if (cleanText.startsWith('<code>') && cleanText.endsWith('</code>')) {
         return cleanText;
     }
@@ -27,7 +37,6 @@ async function translateText(text, fromLang = 'es', toLang = 'en') {
         return TRANSLATION_CACHE[cacheKey];
     }
 
-    // Try Google Translate API first
     try {
         const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(cleanText)}`;
         const res = await fetch(url);
@@ -41,10 +50,8 @@ async function translateText(text, fromLang = 'es', toLang = 'en') {
             }
         }
     } catch (e) {
-        // Fallback to MyMemory API if Google is rate-limited
     }
 
-    // Fallback: MyMemory API
     try {
         const url2 = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(cleanText)}&langpair=${fromLang}|${toLang}`;
         const res2 = await fetch(url2);
@@ -58,19 +65,20 @@ async function translateText(text, fromLang = 'es', toLang = 'en') {
             }
         }
     } catch (e) {
-        console.warn('Translation API fallback error:', e);
+        console.warn('Translation API error:', e);
     }
 
-    // Cache fallback text to avoid repeated failing requests
     TRANSLATION_CACHE[cacheKey] = text;
     localStorage.setItem('auto_translation_cache', JSON.stringify(TRANSLATION_CACHE));
     return text;
 }
 
-// Pure synchronous getter: Reads from base item or translation cache
 function getItemData(item) {
     if (!item) return {};
-    
+
+    if (item[currentLang]) {
+        return item[currentLang];
+    }
     const baseData = item.es ? { ...item.es } : { ...item };
 
     if (currentLang === 'es') {
@@ -82,14 +90,10 @@ function getItemData(item) {
     }
 
     const autoData = { ...baseData };
-    
     for (const key in baseData) {
         if (typeof baseData[key] === 'string' && baseData[key].trim()) {
             const str = baseData[key].trim();
-            
-            if (str.startsWith('<code>') && str.endsWith('</code>')) {
-                continue;
-            }
+            if (str.startsWith('<code>') && str.endsWith('</code>')) continue;
 
             const cacheKey = `es_en_${str}`;
             if (TRANSLATION_CACHE[cacheKey]) {
@@ -97,11 +101,9 @@ function getItemData(item) {
             }
         }
     }
-
     return autoData;
 }
 
-// Batch background translator with delay to prevent HTTP 429 Rate Limiting
 let isTranslating = false;
 async function translateAllData(toLang = 'en') {
     if (toLang === 'es' || isTranslating) return;
@@ -118,32 +120,41 @@ async function translateAllData(toLang = 'en') {
         }
     };
 
-    PROJECTS_DATA.forEach(p => {
-        const d = p.es || p;
-        addToQueue(d.title);
-        addToQueue(d.category);
-        addToQueue(d.summary);
-    });
+    if (typeof PROJECTS_DATA !== 'undefined') {
+        PROJECTS_DATA.forEach(p => {
+            const d = p.es || p;
+            addToQueue(d.title);
+            addToQueue(d.category);
+            addToQueue(d.summary);
+        });
+    }
 
-    SKILLS_DATA.forEach(g => {
-        const d = g.es || g;
-        addToQueue(d.category);
-        (g.skills || []).forEach(s => addToQueue(s.level || s.level_es));
-    });
+    if (typeof SKILLS_DATA !== 'undefined') {
+        SKILLS_DATA.forEach(g => {
+            const d = g.es || g;
+            addToQueue(d.category);
+            (g.skills || []).forEach(s => addToQueue(s.level || s.level_es));
+        });
+    }
 
-    TIMELINE_DATA.forEach(t => {
-        const d = t.es || t;
-        addToQueue(d.role);
-        addToQueue(d.company);
-        addToQueue(d.desc);
-    });
+    if (typeof TIMELINE_DATA !== 'undefined') {
+        TIMELINE_DATA.forEach(t => {
+            const d = t.es || t;
+            addToQueue(d.role);
+            addToQueue(d.company);
+            addToQueue(d.desc);
+        });
+    }
 
-    Object.values(I18N).forEach(val => addToQueue(val));
+    if (typeof I18N !== 'undefined') {
+        const sourceI18N = I18N[currentLang] || I18N;
+        Object.values(sourceI18N).forEach(val => addToQueue(val));
+    }
 
     if (queue.length > 0) {
         for (const text of queue) {
             await translateText(text, 'es', toLang);
-            await new Promise(r => setTimeout(r, 60)); // Small delay between requests to stay under rate limits
+            await new Promise(r => setTimeout(r, 50));
         }
 
         if (currentLang === toLang) {
@@ -158,18 +169,29 @@ async function translateAllData(toLang = 'en') {
 }
 
 function getI18nText(key) {
-    const baseText = I18N[key];
+    if (typeof I18N === 'undefined') return "";
+
+    if (I18N[currentLang] && I18N[currentLang][key]) {
+        return I18N[currentLang][key];
+    }
+    const baseText = (I18N.es && I18N.es[key]) ? I18N.es[key] : I18N[key];
     if (!baseText) return "";
-    if (currentLang === 'es') return baseText;
-    
+    if (currentLang === 'es') return cleanAIGradients(baseText);
+
     const cacheKey = `es_en_${baseText.trim()}`;
-    return TRANSLATION_CACHE[cacheKey] || baseText;
+    return cleanAIGradients(TRANSLATION_CACHE[cacheKey] || baseText);
+}
+
+function cleanAIGradients(html) {
+    if (typeof html !== 'string') return html;
+    return html.replace(/bg-gradient-to-r\s+from-[^\s"]+\s+(via-[^\s"]+\s+)?to-[^\s"]+/g, 'text-emerald-400');
 }
 
 function updateI18nDOM() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        el.innerHTML = getI18nText(key);
+        const val = getI18nText(key);
+        if (val) el.innerHTML = val;
     });
 }
 
@@ -180,18 +202,17 @@ function setLanguage(lang) {
     const btnEs = document.getElementById('btn-lang-es');
     const btnEn = document.getElementById('btn-lang-en');
 
-    const activeClass = "px-2.5 py-1 text-xs font-mono font-bold rounded-full transition-all bg-emerald-500 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.35)]";
-    const inactiveClass = "px-2.5 py-1 text-xs font-mono font-bold rounded-full transition-all text-slate-400 hover:text-white";
-
-    if (lang === 'es') {
-        btnEs.className = activeClass;
-        btnEn.className = inactiveClass;
-        currentFilter = getI18nText('filter_all');
-    } else {
-        btnEn.className = activeClass;
-        btnEs.className = inactiveClass;
-        currentFilter = getI18nText('filter_all');
+    if (btnEs && btnEn) {
+        if (lang === 'es') {
+            btnEs.classList.add('active');
+            btnEn.classList.remove('active');
+        } else {
+            btnEn.classList.add('active');
+            btnEs.classList.remove('active');
+        }
     }
+
+    currentFilter = getI18nText('filter_all') || (lang === 'es' ? 'Todos' : 'All');
 
     const cvPath = lang === 'es' ? 'sources/MiCV.pdf' : 'sources/MyResume.pdf';
     document.querySelectorAll('[data-cv-link]').forEach(el => {
@@ -209,30 +230,44 @@ function setLanguage(lang) {
     }
 }
 
+function deriveArchitecture(project) {
+    if (project.arch) return project.arch;
+    const tags = project.tags || [];
+    const cat = project.category || "";
+
+    if (tags.includes("SFML") || tags.includes("C++")) return "SYSTEMS & OOP // SFML";
+    if (tags.includes("Docker") || tags.includes("SQL Server")) return "RELATIONAL DB // DOCKER";
+    if (tags.includes("aiohttp") || tags.includes("API")) return "REST API // ASYNC COROUTINES";
+    if (tags.includes("HTML/CSS") || tags.includes("JavaScript")) return "SWISS MINIMAL // VANILLA WEB";
+    return `${cat.toUpperCase()} // ARCHITECTURE`;
+}
+
 const projectsGrid = document.getElementById('projects-grid');
 const filtersContainer = document.getElementById('projects-filters');
 const skillsGrid = document.getElementById('skills-grid');
 const timelineContainer = document.getElementById('timeline-container');
 
 function renderFilters() {
-    const allLabel = getI18nText('filter_all');
+    if (!filtersContainer || typeof PROJECTS_DATA === 'undefined') return;
+
+    const allLabel = getI18nText('filter_all') || (currentLang === 'es' ? 'Todos' : 'All');
     const categories = [allLabel, ...new Set(PROJECTS_DATA.map(p => getItemData(p).category).filter(Boolean))];
 
     if (!categories.includes(currentFilter)) {
         currentFilter = allLabel;
     }
 
-    filtersContainer.innerHTML = categories.map(cat => `
-        <button
-            onclick="filterProjects('${cat}')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all ${currentFilter === cat
-            ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
-            : 'bg-obsidian-850/80 text-slate-400 border border-white/5 hover:border-white/15 hover:text-slate-200'
-        }"
-        >
-            ${cat}
-        </button>
-    `).join('');
+    filtersContainer.innerHTML = categories.map(cat => {
+        const isActive = currentFilter === cat;
+        return `
+            <button 
+                type="button"
+                onclick="filterProjects('${cat}')" 
+                class="filter-btn ${isActive ? 'active' : ''}">
+                ${cat}
+            </button>
+        `;
+    }).join('');
 }
 
 window.filterProjects = (category) => {
@@ -242,7 +277,9 @@ window.filterProjects = (category) => {
 };
 
 function renderProjects() {
-    const allLabel = getI18nText('filter_all');
+    if (!projectsGrid || typeof PROJECTS_DATA === 'undefined') return;
+
+    const allLabel = getI18nText('filter_all') || (currentLang === 'es' ? 'Todos' : 'All');
     const filtered = currentFilter === allLabel
         ? PROJECTS_DATA
         : PROJECTS_DATA.filter(p => getItemData(p).category === currentFilter);
@@ -251,223 +288,248 @@ function renderProjects() {
         const data = getItemData(project);
         const hasGithub = project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '';
         const hasDemo = project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl !== '';
-        const indexNumber = String(idx + 1).padStart(2, '0');
+        const isFeatured = (project.tags && project.tags.includes('SFML')) || (idx === 0 && currentFilter === allLabel);
+        const arch = deriveArchitecture(project);
 
         return `
-        <div class="foundry-card p-6 flex flex-col h-full group animate-fade-in corner-bracket">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-mono text-slate-500">[ ${indexNumber} ]</span>
-                    <span class="px-2.5 py-0.5 bg-emerald-500/10 rounded text-[11px] font-mono text-emerald-400 border border-emerald-500/20">
-                        ${data.category}
-                    </span>
+        <article class="project-card ${isFeatured ? 'featured' : ''}">
+            <div class="card-header-row">
+                <div class="arch-badge">
+                    <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent);"></span>
+                    <span>${arch}</span>
                 </div>
-                <div class="flex gap-2.5 text-slate-400">
-                    ${hasGithub ? `<a href="${project.githubUrl}" class="hover:text-emerald-400 transition-colors" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-4 h-4 invert opacity-75 hover:opacity-100 transition-opacity"></a>` : ''}
-                    ${hasDemo ? `<a href="${project.liveDemoUrl}" class="hover:text-emerald-400 transition-colors" target="_blank" rel="noopener noreferrer" title="Demo"><i data-lucide="external-link" class="w-4 h-4"></i></a>` : ''}
+                <div class="card-actions-quick">
+                    <span class="card-category">${data.category}</span>
+                    ${hasGithub ? `
+                        <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="GitHub">
+                            <i data-lucide="github" style="width: 14px; height: 14px;"></i>
+                        </a>
+                    ` : ''}
+                    ${hasDemo ? `
+                        <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="Demo">
+                            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                        </a>
+                    ` : ''}
                 </div>
             </div>
 
-            <h3 class="text-xl font-bold font-display text-white mb-2.5 group-hover:text-emerald-400 transition-colors">
-                ${hasGithub ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-2">${data.title}</a>` : data.title}
+            <h3 class="project-title">
+                ${hasGithub ? `
+                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer">
+                        <span>${data.title}</span>
+                        <span class="arrow-diag">↗</span>
+                    </a>
+                ` : `
+                    <span>${data.title}</span>
+                `}
             </h3>
 
-            <p class="text-slate-400 text-sm mb-6 flex-grow leading-relaxed font-sans">${data.summary}</p>
+            <p class="project-summary">${data.summary}</p>
 
-            <div class="flex flex-wrap gap-1.5 mb-5">
-                ${project.tags.map(tag => `<span class="tech-pill">#${tag}</span>`).join('')}
+            <div class="tags-row">
+                ${(project.tags || []).map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
             </div>
 
-            <div class="flex items-center gap-3 pt-4 border-t border-white/5 mt-auto">
+            <div class="card-footer">
                 ${hasGithub ? `
-                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-obsidian px-3.5 py-1.5 text-xs font-mono font-medium flex items-center gap-2">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-3.5 h-3.5 invert opacity-80"> ${getI18nText('btn_code')}
+                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                        <i data-lucide="github" style="width: 13px; height: 13px;"></i>
+                        <span>${getI18nText('btn_code') || 'Código'}</span>
                     </a>
                 ` : ''}
                 ${hasDemo ? `
-                    <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-2 border border-emerald-500/30">
-                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> ${getI18nText('btn_demo')}
+                    <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-accent">
+                        <i data-lucide="external-link" style="width: 13px; height: 13px;"></i>
+                        <span>${getI18nText('btn_demo') || 'Demo'}</span>
                     </a>
                 ` : ''}
             </div>
-        </div>
-    `}).join('');
+        </article>
+        `;
+    }).join('');
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 }
 
 function renderSkills() {
-    const skillIcons = {
-        "C# & .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
-        "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
-        "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
-        "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg",
-        "HTML/CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
-        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
-        "SQL Server": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg",
-        "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
-        "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
-        "AWS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
-        "Git / GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
-        "Linux": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg"
-    };
+    if (!skillsGrid || typeof SKILLS_DATA === 'undefined') return;
 
     skillsGrid.innerHTML = SKILLS_DATA.map(group => {
         const data = getItemData(group);
         return `
-        <div class="foundry-card p-6 flex flex-col relative overflow-hidden group corner-bracket">
-            <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-colors"></div>
-
-            <div class="flex items-center gap-3 mb-6 relative z-10">
-                <div class="p-2.5 bg-obsidian-800 rounded-xl text-emerald-400 border border-white/10 shadow-inner">
-                    <i data-lucide="${group.icon}" class="w-5 h-5"></i>
-                </div>
-                <h3 class="text-lg font-bold font-display text-white tracking-wide">${data.category}</h3>
+        <div class="stack-category-block">
+            <div class="stack-category-header">
+                <span class="category-icon">
+                    <i data-lucide="${group.icon || 'layers'}" style="width: 16px; height: 16px;"></i>
+                </span>
+                <span class="category-name">${data.category}</span>
             </div>
+            <div class="skills-list">
+                ${(group.skills || []).map(skill => {
+                    const rawLevel = skill.level || skill.level_es || '';
+                    let levelLabel = rawLevel;
 
-            <div class="flex flex-col gap-2.5 relative z-10">
-                ${group.skills.map(skill => {
-            const rawLevel = skill.level || skill.level_es || '';
-            let level = rawLevel;
-
-            if (currentLang === 'en') {
-                if (skill.level_en) {
-                    level = skill.level_en;
-                } else if (rawLevel) {
-                    const cacheKey = `es_en_${rawLevel.trim()}`;
-                    if (TRANSLATION_CACHE[cacheKey]) {
-                        level = TRANSLATION_CACHE[cacheKey];
+                    if (currentLang === 'en') {
+                        if (skill.level_en) {
+                            levelLabel = skill.level_en;
+                        } else if (rawLevel) {
+                            const cacheKey = `es_en_${rawLevel.trim()}`;
+                            levelLabel = TRANSLATION_CACHE[cacheKey] || rawLevel;
+                        }
                     }
-                }
-            }
 
-            const lowerLevel = level.toLowerCase();
-            const isAdvanced = lowerLevel.includes('avanzad') || lowerLevel.includes('advanc');
-            const isInter = lowerLevel.includes('intermed') || lowerLevel.includes('interm');
+                    const lower = String(levelLabel).toLowerCase();
+                    let levelClass = 'level-beginner';
+                    if (lower.includes('avanzad') || lower.includes('advanc')) {
+                        levelClass = 'level-advanced';
+                    } else if (lower.includes('intermed') || lower.includes('interm')) {
+                        levelClass = 'level-intermediate';
+                    }
 
-            const iconUrl = skillIcons[skill.name];
-            const iconTag = iconUrl ? `<img src="${iconUrl}" class="w-5 h-5 ${skill.name === 'Git / GitHub' || skill.name === 'AWS' || skill.name === 'Go' ? 'invert opacity-90' : ''}" alt="${skill.name}">` : `<div class="w-5 h-5 rounded-full bg-slate-700"></div>`;
+                    const iconUrl = SKILL_ICONS[skill.name];
+                    const isWhiteIcon = skill.name.includes('Git') || skill.name.includes('AWS') || skill.name === 'Go';
+                    const iconImg = iconUrl
+                        ? `<img src="${iconUrl}" class="skill-tech-icon ${isWhiteIcon ? 'invert-icon' : ''}" alt="${skill.name}">`
+                        : `<span class="skill-dot-icon">●</span>`;
 
-            let dots = '';
-            let dotCount = isAdvanced ? 3 : (isInter ? 2 : 1);
-            for (let i = 0; i < 3; i++) {
-                const isActive = i < dotCount;
-                const activeColor = isAdvanced ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]' : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)]';
-                dots += `<div class="w-3 h-1 rounded-sm ${isActive ? activeColor : 'bg-obsidian-700'}"></div>`;
-            }
-
-            return `
-                    <div class="flex items-center justify-between p-3 rounded-xl bg-obsidian-900/60 border border-white/5 hover:border-emerald-500/30 hover:bg-obsidian-800/40 transition-all group/skill">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-obsidian-950/70 flex items-center justify-center border border-white/5 group-hover/skill:border-white/10 transition-colors">
-                                ${iconTag}
+                    return `
+                        <div class="skill-row">
+                            <div class="skill-name-wrapper">
+                                ${iconImg}
+                                <span class="skill-name">${skill.name}</span>
                             </div>
-                            <span class="text-sm font-medium text-slate-200 group-hover/skill:text-white transition-colors">${skill.name}</span>
+                            <span class="skill-level-pill ${levelClass}">${levelLabel}</span>
                         </div>
-                        <div class="flex flex-col items-end gap-1.5">
-                            <span class="text-[10px] uppercase font-mono tracking-wider text-slate-500 group-hover/skill:text-slate-400 transition-colors">${level}</span>
-                            <div class="flex gap-1">${dots}</div>
-                        </div>
-                    </div>
-                `}).join('')}
+                    `;
+                }).join('')}
             </div>
         </div>
-    `}).join('');
+        `;
+    }).join('');
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 }
 
 function renderTimeline() {
+    if (!timelineContainer || typeof TIMELINE_DATA === 'undefined') return;
+
     timelineContainer.innerHTML = TIMELINE_DATA.map(item => {
         const data = getItemData(item);
-        const imgTag = item.img ? `<img src="${item.img}" alt="Logo" class="h-7 w-auto rounded-sm object-contain bg-white/5 p-1 border border-white/10">` : '';
-        const linkText = currentLang === 'es' ? 'Ver certificado' : 'View certificate';
-        const linkTag = item.link ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 hover:underline text-xs font-mono inline-flex items-center gap-1.5 mt-3">${linkText} <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : '';
+        const periodText = (currentLang === 'en' && item.period_en) ? item.period_en : item.period;
+        const imgTag = item.img ? `<img src="${item.img}" alt="Logo" class="timeline-org-logo">` : '';
+        const certLabel = getI18nText('cert_link') || (currentLang === 'es' ? 'Ver Certificado' : 'View Certificate');
+        const linkTag = item.link ? `
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <span>${certLabel}</span>
+                <i data-lucide="arrow-up-right" style="width: 12px; height: 12px;"></i>
+            </a>
+        ` : '';
 
-        let progressTag = '';
+        let progressMarkup = '';
         if (item.progress) {
             const percentage = Math.round((item.progress.approved / item.progress.total) * 100);
-            const degreeProgressLabel = currentLang === 'es' ? 'Progreso de la carrera' : 'Degree progress';
-            const approvedLabel = currentLang === 'es' ? 'Materias aprobadas' : 'Approved subjects';
-            const inProgressLabel = currentLang === 'es' ? 'Cursando actualmente' : 'Currently taking';
+            const degLabel = getI18nText('degree_progress') || (currentLang === 'es' ? 'Progreso de la carrera' : 'Degree progress');
+            const appLabel = getI18nText('approved_subjects') || (currentLang === 'es' ? 'Materias aprobadas' : 'Approved subjects');
+            const inProgLabel = getI18nText('in_progress_subjects') || (currentLang === 'es' ? 'Cursando actualmente' : 'Currently taking');
 
-            progressTag = `
-            <div class="my-3.5 p-4 bg-obsidian-850/90 border border-white/10 rounded-xl max-w-xl shadow-inner">
-                <div class="flex justify-between items-center text-xs font-mono mb-2">
-                    <span class="text-slate-300 flex items-center gap-2">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        <span class="font-medium text-slate-200">${degreeProgressLabel}</span>
+            progressMarkup = `
+            <div class="progress-card">
+                <div class="progress-header">
+                    <span class="progress-label">
+                        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent);"></span>
+                        <span>${degLabel}</span>
                     </span>
-                    <span class="text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">${percentage}%</span>
+                    <span class="progress-pct">${percentage}%</span>
                 </div>
-                <div class="w-full h-2 bg-obsidian-950 rounded-full overflow-hidden mb-2.5 border border-white/5">
-                    <div class="h-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-teal-300 rounded-full transition-all duration-700" style="width: ${percentage}%"></div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: ${percentage}%"></div>
                 </div>
-                <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono pt-1.5 border-t border-white/5">
-                    <span class="text-slate-400">${approvedLabel}: <strong class="text-emerald-400 font-semibold">${item.progress.approved}/${item.progress.total}</strong></span>
-                    <span class="text-slate-400">${inProgressLabel}: <strong class="text-teal-300 font-semibold">${item.progress.inProgress}</strong></span>
+                <div class="progress-metrics">
+                    <span>${appLabel}: <strong class="metric-highlight">${item.progress.approved}/${item.progress.total}</strong></span>
+                    <span>${inProgLabel}: <strong class="metric-highlight">${item.progress.inProgress}</strong></span>
                 </div>
             </div>
             `;
         }
 
         return `
-        <div class="relative pl-8 md:pl-12">
-            <div class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 ${item.active ? 'bg-emerald-400 ring-4 ring-emerald-500/20 shadow-[0_0_12px_rgba(16,185,129,0.8)]' : 'bg-obsidian-750 border-2 border-obsidian-900'} rounded-full"></div>
-            <div class="text-xs font-mono text-emerald-400 font-semibold mb-1">${item.period}</div>
-            <div class="flex items-center gap-3 mb-2">
-                <h3 class="text-xl font-bold font-display text-white">${data.role}</h3>
+        <div class="timeline-item">
+            <span class="timeline-marker ${item.active ? 'active' : ''}"></span>
+            <div class="timeline-period">${periodText}</div>
+            <div class="timeline-header-row">
+                <h3 class="timeline-role">${data.role}</h3>
                 ${imgTag}
             </div>
-            <div class="text-slate-400 mb-3 font-medium text-sm">${data.company}</div>
-            ${progressTag}
-            <p class="text-slate-300 text-sm leading-relaxed whitespace-pre-line font-sans">${data.desc}</p>
+            ${data.company ? `<div class="timeline-company">${data.company}</div>` : ''}
+            ${progressMarkup}
+            <p class="timeline-desc">${data.desc}</p>
             ${linkTag}
         </div>
-    `}).join('');
+        `;
+    }).join('');
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 }
 
 window.toggleMobileMenu = () => {
-    const menu = document.getElementById('mobile-menu');
-    if (menu) {
-        menu.classList.toggle('hidden');
-    }
+    const drawer = document.getElementById('mobile-drawer');
+    if (drawer) drawer.classList.toggle('open');
 };
 
 window.closeMobileMenu = () => {
-    const menu = document.getElementById('mobile-menu');
-    if (menu) {
-        menu.classList.add('hidden');
-    }
+    const drawer = document.getElementById('mobile-drawer');
+    if (drawer) drawer.classList.remove('open');
 };
 
 window.copyEmail = () => {
     const emailEl = document.getElementById('email-text');
-    const email = emailEl ? emailEl.innerText : 'juancruzdominguezpistoia@gmail.com';
+    const email = emailEl ? emailEl.innerText.trim() : 'juancruzdominguezpistoia@gmail.com';
+
     navigator.clipboard.writeText(email).then(() => {
         const btnCard = document.getElementById('btn-copy-email-card');
+        const btnFooter = document.getElementById('btn-copy');
+        const iconFooter = document.getElementById('copy-status-icon');
+        const copiedText = getI18nText('copied_email') || '¡Copiado!';
+
         if (btnCard) {
-            const originalHTML = btnCard.innerHTML;
-            btnCard.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> <span class="text-emerald-400">${getI18nText('copied_email') || '¡Copiado!'}</span>`;
+            btnCard.innerHTML = `<i data-lucide="check" style="width: 13px; height: 13px; color: var(--accent);"></i> <span style="color: var(--accent);">${copiedText}</span>`;
             if (window.lucide) lucide.createIcons();
-            setTimeout(() => {
-                btnCard.innerHTML = originalHTML;
-                if (window.lucide) lucide.createIcons();
-            }, 2000);
         }
+
+        if (btnFooter && iconFooter) {
+            btnFooter.style.borderColor = 'var(--accent)';
+            iconFooter.setAttribute('data-lucide', 'check');
+            iconFooter.style.color = 'var(--accent)';
+            if (window.lucide) lucide.createIcons();
+        }
+
+        setTimeout(() => {
+            if (btnCard) {
+                btnCard.innerHTML = `<i data-lucide="copy" style="width: 13px; height: 13px;"></i> <span>${getI18nText('btn_copy_email') || 'Copiar Email'}</span>`;
+                if (window.lucide) lucide.createIcons();
+            }
+            if (btnFooter && iconFooter) {
+                btnFooter.style.borderColor = '';
+                iconFooter.setAttribute('data-lucide', 'copy');
+                iconFooter.style.color = '';
+                if (window.lucide) lucide.createIcons();
+            }
+        }, 2200);
     });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    currentFilter = getI18nText('filter_all');
     setLanguage('es');
 
     console.log(
-        "%cPortfolio Template creado por Juan Cruz Dominguez Pistoia %c\n GitHub: https://github.com/Cruplusplus",
-        "background: #080c14; color: #06b6d4; font-size: 13px; font-weight: bold; padding: 6px 10px; border: 1px solid #06b6d4; border-radius: 4px;",
-        "color: #94a3b8; font-size: 11px; padding: 4px;"
+        "%c JUAN CRUZ DOMINGUEZ PISTOIA // BACKEND & SYSTEMS %c\n https://github.com/Cruplusplus",
+        "background: #16181D; color: #10B981; font-family: monospace; font-size: 11px; padding: 4px 8px; border: 1px solid #262930;",
+        "color: #8A8F98; font-family: monospace; font-size: 10px; padding: 4px;"
     );
 });
