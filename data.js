@@ -15,7 +15,7 @@ const I18N = {
     nav_contact: "Contacto",
     btn_cv: "CV",
     status_badge: "Status: Abierto a oportunidades",
-    hero_title: "Juan Cruz Dominguez <br><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500\">Desarrollador Junior</span>",
+    hero_title: "Juan Cruz Dominguez <br><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500\">Desarrollador Junior</span>",
     hero_desc: "Estudiante de la Tecnicatura Universitaria en Programación (UTN - FRGP). Actualmente orientado al desarrollo backend. Creando proyectos con código estructurado y legible, abierto para poder generar experiencias.",
     btn_explore: "Explorar Proyectos",
     section_projects: "Proyectos Destacados",

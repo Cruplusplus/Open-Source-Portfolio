@@ -1,49 +1,220 @@
 /*!
- * Portfolio Custom Styles
- * Designed & Developed by Juan Cruz Dominguez Pistoia
- * GitHub: https://github.com/Cruplusplus
+ * Portfolio Custom Styles - Emerald Obsidian Aesthetic
+ * Designed & Developed by Juan Cruz Dominguez Pistoia (@Cruplusplus)
+ * Custom Typography, Micro-interactions & Architectural Atmosphere
  */
 
-body {
-    background-color: #080c14;
-    color: #e2e8f0;
-}
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #080c14;
-}
-::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #334155;
-}
-.glass-card {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid #1e293b;
-    transition: all 0.3s ease;
-}
-.glass-card:hover {
-    border-color: rgba(6, 182, 212, 0.4);
-    box-shadow: 0 4px 20px -2px rgba(6, 182, 212, 0.1);
-}
-.nav-glass {
-    background: rgba(8, 12, 20, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid #1e293b;
+:root {
+    --bg-base: #070a08;
+    --bg-surface: #0e1410;
+    --bg-surface-elevated: #141c16;
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-medium: rgba(255, 255, 255, 0.12);
+    --accent-emerald: #10b981;
+    --accent-emerald-light: #34d399;
+    --accent-emerald-glow: rgba(16, 185, 129, 0.22);
+    --accent-mint: #6ee7b7;
+    --text-primary: #f0fdf4;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --font-display: 'Bricolage Grotesque', -apple-system, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
+/* Base resets & typography */
+html {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+}
+
+code, pre, .font-mono {
+    font-family: var(--font-mono);
+}
+
+/* Subtle architectural dot-matrix & atmosphere */
+.ambient-backdrop {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+        radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.055) 0%, transparent 42%),
+        radial-gradient(circle at 88% 65%, rgba(52, 211, 153, 0.04) 0%, transparent 45%),
+        radial-gradient(circle at 50% 12%, rgba(5, 150, 105, 0.035) 0%, transparent 50%),
+        radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #070a08;
+}
+::-webkit-scrollbar-thumb {
+    background: #19241c;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #10b981;
+}
+
+/* Selection */
+::selection {
+    background: rgba(16, 185, 129, 0.25);
+    color: #d1fae5;
+}
+
+/* Navigation frosted glass */
+.nav-foundry {
+    background: rgba(7, 10, 8, 0.84);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* High-craft Cards */
+.foundry-card {
+    background: linear-gradient(145deg, rgba(14, 20, 16, 0.88) 0%, rgba(9, 14, 10, 0.96) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    border-radius: 14px;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.28s ease,
+                box-shadow 0.28s ease;
+}
+
+.foundry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.foundry-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(16, 185, 129, 0.38);
+    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(16, 185, 129, 0.15);
+}
+
+.foundry-card:hover::before {
+    opacity: 1;
+}
+
+/* Subtle corner mark indicators for technical precision */
+.corner-bracket {
+    position: relative;
+}
+.corner-bracket::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--accent-emerald);
+    border-bottom: 1.5px solid var(--accent-emerald);
+    opacity: 0.7;
+}
+
+/* Micro badge styling */
+.tech-pill {
+    background: rgba(18, 26, 20, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.tech-pill:hover {
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #f0fdf4;
+    background: rgba(16, 185, 129, 0.08);
+}
+
+/* Custom interactive buttons */
+.btn-emerald-primary {
+    background: #10b981;
+    color: #041910;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.35);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-emerald-primary:hover {
+    background: #34d399;
+    transform: translateY(-1px);
+    box-shadow: 0 0 26px -2px rgba(16, 185, 129, 0.55);
+}
+.btn-emerald-primary:active {
+    transform: translateY(0);
+}
+
+.btn-obsidian {
+    background: rgba(16, 23, 18, 0.9);
+    color: #f1f5f9;
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.btn-obsidian:hover {
+    background: rgba(22, 33, 25, 0.95);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.btn-obsidian:active {
+    transform: translateY(0);
+}
+
+/* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+.pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Focus outline */
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent-emerald);
+    outline-offset: 2px;
 }
