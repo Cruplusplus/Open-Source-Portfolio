@@ -1,15 +1,252 @@
 /*!
-  ========================================================
-  * Portfolio Web Template
-  * Diseñado y desarrollado por: Juan Cruz Dominguez Pistoia
-  * GitHub: https://github.com/Cruplusplus/Open-Source-Portfolio
-  * Proyecto Open Source
-  ========================================================
-*/
+ * Portfolio Website Logic — Swiss Minimal / Technical Editorial
+ * Designed & Developed by Juan Cruz Dominguez Pistoia
+ * GitHub: https://github.com/Cruplusplus
+ */
+
+const I18N = {
+    es: {
+        nav_projects: "01 // Proyectos",
+        nav_stack: "02 // Stack",
+        nav_path: "03 // Trayectoria",
+        nav_contact: "04 // Contacto",
+        btn_cv: "CV.pdf",
+        status_badge: "STATUS // DISPONIBLE PARA TRABAJAR",
+        hero_title: "Juan Cruz Dominguez Pistoia",
+        hero_subtitle: "Backend & Systems Developer",
+        hero_desc: "Estudiante de Programación en la UTN (FRGP). Orientado al desarrollo backend, diseño de bases de datos y desarrollo de software con C#, .NET, C++ y SQL Server. Enfocado en la arquitectura limpia, la robustez del código y la resolución técnica de problemas.",
+        btn_explore: "Ver Proyectos",
+        section_projects: "Proyectos",
+        section_stack: "Stack Técnico",
+        section_path: "Trayectoria & Formación",
+        footer_text: "Desarrollo de software estructurado, backend y modelado de datos.",
+        filter_all: "Todos",
+        btn_code: "Código Fuente",
+        btn_demo: "Demo en Vivo",
+        arch_label: "Arquitectura",
+        cert_link: "Ver Certificado",
+        degree_progress: "Progreso de la carrera",
+        approved_subjects: "Materias aprobadas",
+        in_progress_subjects: "Cursando actualmente"
+    },
+    en: {
+        nav_projects: "01 // Projects",
+        nav_stack: "02 // Stack",
+        nav_path: "03 // Experience",
+        nav_contact: "04 // Contact",
+        btn_cv: "Resume.pdf",
+        status_badge: "STATUS // OPEN TO WORK",
+        hero_title: "Juan Cruz Dominguez Pistoia",
+        hero_subtitle: "Backend & Systems Developer",
+        hero_desc: "Programming student at UTN (FRGP). Focused on backend engineering, relational database design, and software systems with C#, .NET, C++, and SQL Server. Dedicated to clean architecture, performance, and maintainable codebases.",
+        btn_explore: "View Projects",
+        section_projects: "Projects",
+        section_stack: "Technical Stack",
+        section_path: "Experience & Education",
+        footer_text: "Structured software engineering, backend systems, and data modeling.",
+        filter_all: "All",
+        btn_code: "Source Code",
+        btn_demo: "Live Demo",
+        arch_label: "Architecture",
+        cert_link: "View Certificate",
+        degree_progress: "Degree completion",
+        approved_subjects: "Approved subjects",
+        in_progress_subjects: "Currently taking"
+    }
+};
+
+const PROJECTS_DATA = [
+    {
+        id: 1,
+        featured: true,
+        arch: "Systems & OOP // SFML",
+        es: {
+            title: "Videojuego Roguelike 2D",
+            category: "Backend & Sistemas",
+            summary: "Simulador de mapa procedural y motor de lógica RPG desarrollado en C++ utilizando SFML. Diseñado con arquitectura modular orientada a objetos (POO), gestión eficiente de memoria dinámica y serialización de estado mediante JSON para persistencia de partidas."
+        },
+        en: {
+            title: "2D Roguelike Game Engine",
+            category: "Backend & Systems",
+            summary: "Procedural map simulator and RPG game logic engine built in C++ using SFML. Architected with modular Object-Oriented principles, dynamic memory management, and JSON state serialization for game persistence."
+        },
+        tags: ["C++", "SFML", "OOP", "JSON", "Git"],
+        githubUrl: "https://github.com/Cruplusplus/TP-Programacion-2.-Extendible-map-RPG-in-C-",
+        liveDemoUrl: ""
+    },
+    {
+        id: 2,
+        featured: false,
+        arch: "Relational DB // Docker",
+        es: {
+            title: "Sistema de Gestión de Gimnasio & Club",
+            category: "Bases de Datos",
+            summary: "Diseño, normalización e implementación de base de datos relacional para gestión deportiva integral. Desplegado sobre SQL Server en contenedores Docker, con procedimientos almacenados, constraints y planes de indexación optimizados."
+        },
+        en: {
+            title: "Gym & Sports Club Management System",
+            category: "Databases",
+            summary: "Relational schema design, normalization, and deployment for athletic management. Powered by SQL Server on Docker containers, featuring stored procedures, integrity constraints, and optimized index execution plans."
+        },
+        tags: ["SQL Server", "Docker", "T-SQL", "Relational Design"],
+        githubUrl: "https://github.com/Cruplusplus/UTNFRGP-TUP-BD2-TPI-G17",
+        liveDemoUrl: ""
+    },
+    {
+        id: 3,
+        featured: false,
+        arch: "Swiss Minimal // Semantic Web",
+        es: {
+            title: "Portfolio Web & Design System",
+            category: "Desarrollo Web",
+            summary: "Portafolio de ingeniería desarrollado en Vanilla HTML5, CSS moderno (Custom Properties, CSS Grid, Flexbox) y JavaScript ES6+. Sin frameworks externos pesados, con diseño editorial suizo y rendimiento nativo óptimo."
+        },
+        en: {
+            title: "Web Portfolio & Design System",
+            category: "Web Development",
+            summary: "Technical engineering portfolio built with Vanilla HTML5, modern CSS (Custom Properties, CSS Grid, Flexbox), and modular ES6+ JavaScript. Free of bloated runtime dependencies, focusing on Swiss editorial layout and speed."
+        },
+        tags: ["HTML5", "CSS3 Grid", "Vanilla JS", "Performance"],
+        githubUrl: "https://github.com/Cruplusplus",
+        liveDemoUrl: ""
+    }
+];
+
+const SKILLS_DATA = [
+    {
+        icon: "terminal",
+        es: { category: "Lenguajes & Backend" },
+        en: { category: "Languages & Backend" },
+        skills: [
+            { name: "C# / .NET", level_es: "Avanzado", level_en: "Advanced", class: "level-advanced" },
+            { name: "C++", level_es: "Avanzado", level_en: "Advanced", class: "level-advanced" },
+            { name: "Python", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" },
+            { name: "Go", level_es: "Principiante", level_en: "Beginner", class: "level-beginner" },
+            { name: "HTML5 / CSS3", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" },
+            { name: "JavaScript (ES6+)", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" }
+        ]
+    },
+    {
+        icon: "database",
+        es: { category: "Bases de Datos & Contenedores" },
+        en: { category: "Databases & Containers" },
+        skills: [
+            { name: "SQL Server (T-SQL)", level_es: "Avanzado", level_en: "Advanced", class: "level-advanced" },
+            { name: "MongoDB", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" },
+            { name: "Docker", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" },
+            { name: "AWS Fundamentals", level_es: "Principiante", level_en: "Beginner", class: "level-beginner" }
+        ]
+    },
+    {
+        icon: "layers",
+        es: { category: "Arquitectura & Metodologías" },
+        en: { category: "Architecture & Tools" },
+        skills: [
+            { name: "Git & GitHub Workflow", level_es: "Avanzado", level_en: "Advanced", class: "level-advanced" },
+            { name: "Programación Orientada a Objetos", level_es: "Avanzado", level_en: "Advanced", class: "level-advanced" },
+            { name: "Linux / Bash Shell", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" },
+            { name: "SCRUM / Metodologías Ágiles", level_es: "Intermedio", level_en: "Intermediate", class: "level-intermediate" }
+        ]
+    }
+];
+
+const TIMELINE_DATA = [
+    {
+        period: "2025 — 2027 (En Curso)",
+        period_en: "2025 — 2027 (In Progress)",
+        es: {
+            role: "Tecnicatura Universitaria en Programación",
+            company: "Universidad Tecnológica Nacional (UTN — FRGP)",
+            desc: "Formación superior estructurada en ciencias de la computación, desarrollo de software y sistemas.\n• Arquitectura de software, POO avanzada y estructuras de datos con C++ y C# / .NET.\n• Diseño, modelado y administración de bases de datos relacionales (SQL Server) y NoSQL (MongoDB).\n• Metodologías ágiles, análisis de requerimientos, sistemas operativos y redes."
+        },
+        en: {
+            role: "University Degree in Computer Programming",
+            company: "National Technological University (UTN — FRGP)",
+            desc: "Structured higher education in computer science, software architecture, and systems engineering.\n• Software architecture, advanced OOP, and data structures with C++ and C# / .NET.\n• Design, modeling, and administration of relational (SQL Server) and NoSQL (MongoDB) databases.\n• Agile methodologies, requirements engineering, operating systems, and computer networking."
+        },
+        progress: {
+            approved: 10,
+            total: 18,
+            inProgress: 4
+        },
+        img: "https://upload.wikimedia.org/wikipedia/commons/6/67/UTN_logo.jpg",
+        link: "",
+        active: true
+    },
+    {
+        period: "2026 (En Curso)",
+        period_en: "2026 (In Progress)",
+        es: {
+            role: "Especialización en Python para Backend & Datos",
+            company: "Formación Técnica Continua",
+            desc: "Dominio de módulos avanzados, estructuras de datos nativas, procesamiento de archivos de flujo (TXT, CSV, JSON), captura estructurada de excepciones y optimización de algoritmos mediante expresiones regulares y automatización."
+        },
+        en: {
+            role: "Python Backend & Data Processing Specialization",
+            company: "Continuous Technical Training",
+            desc: "Advanced modules, native data structures, stream processing (TXT, CSV, JSON), structured exception handling, and algorithmic optimization using regular expressions and automation scripts."
+        },
+        img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+        link: "https://www.youtube.com/watch?v=nKPbfIU442g",
+        active: true
+    },
+    {
+        period: "2024 (Acreditado)",
+        period_en: "2024 (Certified)",
+        es: {
+            role: "First Certificate in English (FCE — B2 CEFR)",
+            company: "Cambridge University Press & Assessment",
+            desc: "Competencia bilingüe profesional y técnica. Capacidad para analizar documentación de arquitectura técnica en inglés, coordinar con equipos de desarrollo internacionales y redactar especificaciones de software con fluidez y precisión."
+        },
+        en: {
+            role: "First Certificate in English (FCE — B2 CEFR)",
+            company: "Cambridge University Press & Assessment",
+            desc: "Professional bilingual technical proficiency. Full capability to read and produce complex architectural specifications, interact with distributed international engineering teams, and document systems clearly."
+        },
+        img: "https://i.pinimg.com/736x/a5/44/53/a544531318d501c26443dc2378a8c150.jpg",
+        link: "https://www.linkedin.com/in/juan-cruz-dominguez-pistoia-1830b4384/details/certifications/",
+        active: false
+    },
+    {
+        period: "2020 — 2021 (Finalizado)",
+        period_en: "2020 — 2021 (Completed)",
+        es: {
+            role: "Fundamentos de Desarrollo Web (HTML5 & CSS3)",
+            company: "Autodidacta & Cursos Especializados",
+            desc: "Estudio profundo del Box Model, CSS Grid, Flexbox, metodologías de maquetado semántico, accesibilidad web (a11y) y responsive design adaptable sin frameworks."
+        },
+        en: {
+            role: "Web Development Fundamentals (HTML5 & CSS3)",
+            company: "Independent Study & Technical Courses",
+            desc: "In-depth study of the CSS Box Model, Grid, Flexbox, semantic layout standards, accessibility (a11y), and frameworkless responsive design."
+        },
+        img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+        link: "https://www.youtube.com/watch?v=ELSm-G201Ls",
+        active: false
+    },
+    {
+        period: "2019 — 2024 (Graduado)",
+        period_en: "2019 — 2024 (Graduated)",
+        es: {
+            role: "Bachiller en Economía y Administración",
+            company: "Instituto Marcelo Torcuato de Alvear",
+            desc: "Formación de base en lógica analítica, procesos contables, gestión organizacional y métodos cuantitativos."
+        },
+        en: {
+            role: "High School Diploma in Economics & Administration",
+            company: "Instituto Marcelo Torcuato de Alvear",
+            desc: "Foundational training in analytical logic, organizational operations, financial workflows, and quantitative methods."
+        },
+        img: "https://www.micole.net/imagenes/colegio/logo/300037471/marcelo-torcuato-de-alvear_128.png?v=MjAyNi0wOC0xMyAxODowMTo1Nw==",
+        link: "",
+        active: false
+    }
+];
 
 let currentLang = 'es';
 let currentFilter = 'All';
 
+<<<<<<< Updated upstream
 // LocalStorage translation cache
 const TRANSLATION_CACHE = JSON.parse(localStorage.getItem('auto_translation_cache') || '{}');
 
@@ -206,19 +443,54 @@ function setLanguage(lang) {
     }
 }
 
+=======
+// Cache DOM elements
+>>>>>>> Stashed changes
 const projectsGrid = document.getElementById('projects-grid');
 const filtersContainer = document.getElementById('projects-filters');
 const skillsGrid = document.getElementById('skills-grid');
 const timelineContainer = document.getElementById('timeline-container');
 
+function setLanguage(lang) {
+    currentLang = lang;
+
+    // Toggle language buttons
+    const btnEs = document.getElementById('btn-lang-es');
+    const btnEn = document.getElementById('btn-lang-en');
+
+    if (lang === 'es') {
+        btnEs.classList.add('active');
+        btnEn.classList.remove('active');
+        currentFilter = I18N.es.filter_all;
+    } else {
+        btnEn.classList.add('active');
+        btnEs.classList.remove('active');
+        currentFilter = I18N.en.filter_all;
+    }
+
+    // Update translated static text
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (I18N[lang] && I18N[lang][key]) {
+            el.innerHTML = I18N[lang][key];
+        }
+    });
+
+    renderFilters();
+    renderProjects();
+    renderSkills();
+    renderTimeline();
+}
+
 function renderFilters() {
-    const allLabel = getI18nText('filter_all');
-    const categories = [allLabel, ...new Set(PROJECTS_DATA.map(p => getItemData(p).category).filter(Boolean))];
+    const allLabel = I18N[currentLang].filter_all;
+    const categories = [allLabel, ...new Set(PROJECTS_DATA.map(p => p[currentLang].category))];
 
     if (!categories.includes(currentFilter)) {
         currentFilter = allLabel;
     }
 
+<<<<<<< Updated upstream
     filtersContainer.innerHTML = categories.map(cat => `
         <button
             onclick="filterProjects('${cat}')"
@@ -230,6 +502,19 @@ function renderFilters() {
             ${cat}
         </button>
     `).join('');
+=======
+    filtersContainer.innerHTML = categories.map(cat => {
+        const isActive = currentFilter === cat;
+        return `
+            <button 
+                type="button"
+                onclick="filterProjects('${cat}')" 
+                class="filter-btn ${isActive ? 'active' : ''}">
+                ${cat}
+            </button>
+        `;
+    }).join('');
+>>>>>>> Stashed changes
 }
 
 window.filterProjects = (category) => {
@@ -239,12 +524,13 @@ window.filterProjects = (category) => {
 };
 
 function renderProjects() {
-    const allLabel = getI18nText('filter_all');
+    const allLabel = I18N[currentLang].filter_all;
     const filtered = currentFilter === allLabel
         ? PROJECTS_DATA
-        : PROJECTS_DATA.filter(p => getItemData(p).category === currentFilter);
+        : PROJECTS_DATA.filter(p => p[currentLang].category === currentFilter);
 
     projectsGrid.innerHTML = filtered.map(project => {
+<<<<<<< Updated upstream
         const data = getItemData(project);
         const hasGithub = project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '';
         const hasDemo = project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl !== '';
@@ -280,34 +566,80 @@ function renderProjects() {
                 ${hasDemo ? `
                     <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 rounded text-xs font-mono font-medium transition-colors flex items-center gap-2 border border-cyan-500/30">
                         <i data-lucide="external-link" class="w-4 h-4"></i> ${getI18nText('btn_demo')}
+=======
+        const data = project[currentLang];
+        const hasGithub = project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '';
+        const hasDemo = project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl !== '';
+        const isFeatured = project.featured && (currentFilter === allLabel);
+
+        return `
+        <article class="project-card ${isFeatured ? 'featured' : ''}">
+            <div class="card-header-row">
+                <div class="arch-badge">
+                    <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent);"></span>
+                    <span>${project.arch}</span>
+                </div>
+                <div class="card-actions-quick">
+                    <span class="card-category">${data.category}</span>
+                    ${hasGithub ? `
+                        <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="GitHub">
+                            <i data-lucide="github" style="width: 14px; height: 14px;"></i>
+                        </a>
+                    ` : ''}
+                    ${hasDemo ? `
+                        <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="Demo">
+                            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                        </a>
+                    ` : ''}
+                </div>
+            </div>
+
+            <h3 class="project-title">
+                ${hasGithub ? `
+                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer">
+                        <span>${data.title}</span>
+                        <span class="arrow-diag">↗</span>
+                    </a>
+                ` : `
+                    <span>${data.title}</span>
+                `}
+            </h3>
+
+            <p class="project-summary">${data.summary}</p>
+
+            <div class="tags-row">
+                ${project.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
+            </div>
+
+            <div class="card-footer">
+                ${hasGithub ? `
+                    <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                        <i data-lucide="github" style="width: 13px; height: 13px;"></i>
+                        <span>${I18N[currentLang].btn_code}</span>
+                    </a>
+                ` : ''}
+                ${hasDemo ? `
+                    <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-accent">
+                        <i data-lucide="external-link" style="width: 13px; height: 13px;"></i>
+                        <span>${I18N[currentLang].btn_demo}</span>
+>>>>>>> Stashed changes
                     </a>
                 ` : ''}
             </div>
-        </div>
-    `}).join('');
+        </article>
+        `;
+    }).join('');
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 }
 
 function renderSkills() {
-    const skillIcons = {
-        "C# & .NET": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
-        "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg",
-        "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
-        "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg",
-        "HTML/CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
-        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
-        "SQL Server": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg",
-        "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
-        "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
-        "AWS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
-        "Git / GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
-        "Linux": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg"
-    };
-
     skillsGrid.innerHTML = SKILLS_DATA.map(group => {
-        const data = getItemData(group);
+        const data = group[currentLang];
         return `
+<<<<<<< Updated upstream
         <div class="glass-card rounded-2xl p-6 flex flex-col relative overflow-hidden group">
             <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-colors"></div>
 
@@ -354,28 +686,58 @@ function renderSkills() {
                                 ${iconTag}
                             </div>
                             <span class="text-sm font-medium text-slate-300 group-hover/skill:text-white transition-colors">${skill.name}</span>
+=======
+        <div class="stack-category-block">
+            <div class="stack-category-header">
+                <span class="category-icon">
+                    <i data-lucide="${group.icon}" style="width: 16px; height: 16px;"></i>
+                </span>
+                <span class="category-name">${data.category}</span>
+            </div>
+            <div class="skills-list">
+                ${group.skills.map(skill => {
+                    const levelLabel = currentLang === 'es' ? skill.level_es : skill.level_en;
+                    return `
+                        <div class="skill-row">
+                            <span class="skill-name">${skill.name}</span>
+                            <span class="skill-level-pill ${skill.class}">${levelLabel}</span>
+>>>>>>> Stashed changes
                         </div>
-                        <div class="flex flex-col items-end gap-1.5">
-                            <span class="text-[10px] uppercase font-mono tracking-wider text-slate-500 group-hover/skill:text-slate-400 transition-colors">${level}</span>
-                            <div class="flex gap-1">${dots}</div>
-                        </div>
-                    </div>
-                `}).join('')}
+                    `;
+                }).join('')}
             </div>
         </div>
-    `}).join('');
+        `;
+    }).join('');
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 }
 
 function renderTimeline() {
     timelineContainer.innerHTML = TIMELINE_DATA.map(item => {
+<<<<<<< Updated upstream
         const data = getItemData(item);
         const imgTag = item.img ? `<img src="${item.img}" alt="Logo" class="h-8 w-auto rounded-sm object-contain bg-slate-100/10 p-1">` : '';
         const linkText = currentLang === 'es' ? 'Ver certificado' : 'View certificate';
         const linkTag = item.link ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline text-sm inline-flex items-center gap-1 mt-2">${linkText} <i data-lucide="external-link" class="w-3 h-3"></i></a>` : '';
+=======
+        const data = item[currentLang];
+        const periodText = currentLang === 'es' ? item.period : item.period_en;
+        const imgTag = item.img ? `<img src="${item.img}" alt="Logo" class="timeline-org-logo">` : '';
+        const linkTag = item.link ? `
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <span>${I18N[currentLang].cert_link}</span>
+                <i data-lucide="arrow-up-right" style="width: 12px; height: 12px;"></i>
+            </a>
+        ` : '';
+>>>>>>> Stashed changes
 
-        let progressTag = '';
+        let progressMarkup = '';
         if (item.progress) {
             const percentage = Math.round((item.progress.approved / item.progress.total) * 100);
+<<<<<<< Updated upstream
             const degreeProgressLabel = currentLang === 'es' ? 'Progreso de la carrera' : 'Degree progress';
             const approvedLabel = currentLang === 'es' ? 'Materias aprobadas' : 'Approved subjects';
             const inProgressLabel = currentLang === 'es' ? 'Cursando actualmente' : 'Currently taking';
@@ -398,12 +760,30 @@ function renderTimeline() {
                 <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono pt-1 border-t border-slate-800/50">
                     <span class="text-slate-400">${approvedLabel}: <strong class="text-emerald-400 font-semibold">${item.progress.approved}/${item.progress.total}</strong></span>
                     <span class="text-slate-400">${inProgressLabel}: <strong class="text-amber-400 font-semibold">${item.progress.inProgress}</strong></span>
+=======
+            progressMarkup = `
+            <div class="progress-card">
+                <div class="progress-header">
+                    <span class="progress-label">
+                        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent);"></span>
+                        <span>${I18N[currentLang].degree_progress}</span>
+                    </span>
+                    <span class="progress-pct">${percentage}%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: ${percentage}%"></div>
+                </div>
+                <div class="progress-metrics">
+                    <span>${I18N[currentLang].approved_subjects}: <strong class="metric-highlight">${item.progress.approved}/${item.progress.total}</strong></span>
+                    <span>${I18N[currentLang].in_progress_subjects}: <strong class="metric-highlight">${item.progress.inProgress}</strong></span>
+>>>>>>> Stashed changes
                 </div>
             </div>
             `;
         }
 
         return `
+<<<<<<< Updated upstream
         <div class="relative pl-8 md:pl-12">
             <div class="absolute -left-1.5 top-1.5 w-3 h-3 ${item.active ? 'bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'bg-slate-700 border-2 border-slate-900 rounded-full'}"></div>
             <div class="text-sm font-mono text-cyan-400 mb-1">${item.period}</div>
@@ -414,51 +794,58 @@ function renderTimeline() {
             <div class="text-slate-400 mb-3 font-semibold">${data.company}</div>
             ${progressTag}
             <p class="text-slate-300 text-sm leading-relaxed whitespace-pre-line">${data.desc}</p>
+=======
+        <div class="timeline-item">
+            <span class="timeline-marker ${item.active ? 'active' : ''}"></span>
+            <div class="timeline-period">${periodText}</div>
+            <div class="timeline-header-row">
+                <h3 class="timeline-role">${data.role}</h3>
+                ${imgTag}
+            </div>
+            ${data.company ? `<div class="timeline-company">${data.company}</div>` : ''}
+            ${progressMarkup}
+            <p class="timeline-desc">${data.desc}</p>
+>>>>>>> Stashed changes
             ${linkTag}
         </div>
-    `}).join('');
+        `;
+    }).join('');
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 }
-
-window.toggleMobileMenu = () => {
-    const menu = document.getElementById('mobile-menu');
-    if (menu) {
-        menu.classList.toggle('hidden');
-    }
-};
-
-window.closeMobileMenu = () => {
-    const menu = document.getElementById('mobile-menu');
-    if (menu) {
-        menu.classList.add('hidden');
-    }
-};
 
 window.copyEmail = () => {
     const emailEl = document.getElementById('email-text');
-    const email = emailEl ? emailEl.innerText : 'juancruzdominguezpistoia@gmail.com';
+    const email = emailEl.innerText;
+    
     navigator.clipboard.writeText(email).then(() => {
-        const btnCard = document.getElementById('btn-copy-email-card');
-        if (btnCard) {
-            const originalHTML = btnCard.innerHTML;
-            btnCard.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> <span class="text-emerald-400">${getI18nText('copied_email') || '¡Copiado!'}</span>`;
+        const btn = document.getElementById('btn-copy');
+        const icon = document.getElementById('copy-status-icon');
+        
+        btn.style.borderColor = 'var(--accent)';
+        icon.setAttribute('data-lucide', 'check');
+        icon.style.color = 'var(--accent)';
+        if (window.lucide) lucide.createIcons();
+
+        setTimeout(() => {
+            btn.style.borderColor = '';
+            icon.setAttribute('data-lucide', 'copy');
+            icon.style.color = '';
             if (window.lucide) lucide.createIcons();
-            setTimeout(() => {
-                btnCard.innerHTML = originalHTML;
-                if (window.lucide) lucide.createIcons();
-            }, 2000);
-        }
+        }, 2200);
     });
 };
 
+// Initialization on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
-    currentFilter = getI18nText('filter_all');
+    currentFilter = I18N[currentLang].filter_all;
     setLanguage('es');
 
     console.log(
-        "%cPortfolio Template creado por Juan Cruz Dominguez Pistoia %c\n GitHub: https://github.com/Cruplusplus",
-        "background: #080c14; color: #06b6d4; font-size: 13px; font-weight: bold; padding: 6px 10px; border: 1px solid #06b6d4; border-radius: 4px;",
-        "color: #94a3b8; font-size: 11px; padding: 4px;"
+        "%c JUAN CRUZ DOMINGUEZ PISTOIA // BACKEND & SYSTEMS %c\n https://github.com/Cruplusplus",
+        "background: #16181D; color: #10B981; font-family: monospace; font-size: 11px; padding: 4px 8px; border: 1px solid #262930;",
+        "color: #8A8F98; font-family: monospace; font-size: 10px; padding: 4px;"
     );
 });
