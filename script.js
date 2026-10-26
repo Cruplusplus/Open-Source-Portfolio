@@ -302,7 +302,7 @@ function renderProjects() {
                     <span class="card-category">${data.category}</span>
                     ${hasGithub ? `
                         <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="GitHub">
-                            <i data-lucide="github" style="width: 14px; height: 14px;"></i>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert" style="width: 14px; height: 14px;">
                         </a>
                     ` : ''}
                     ${hasDemo ? `
@@ -333,7 +333,7 @@ function renderProjects() {
             <div class="card-footer">
                 ${hasGithub ? `
                     <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                        <i data-lucide="github" style="width: 13px; height: 13px;"></i>
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert" style="width: 14px; height: 14px;">
                         <span>${getI18nText('btn_code') || 'Código'}</span>
                     </a>
                 ` : ''}
