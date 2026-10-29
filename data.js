@@ -138,7 +138,7 @@ Explica la "regla de los 3 contextos" para trabajar con IA sin perder claridad n
 Aborda la fatiga por IA y cómo gestionarla mediante una infografía práctica.
 Todo el contenido llega a través de una comunidad privada de WhatsApp, con consejos, noticias y regalos exclusivos.`,
         img: "https://thebigschool.com/wp-content/uploads/2024/09/BigSchool_Logo_white.svg",
-        link: "https://thebigschool.com/curso-de-desarrollo-ia-eg/",
+        link: "https://certificados.thebigschool.com/wp-content/uploads/certs/MDEV4/Certificado-Juan-Cruz-Dominguez-Pistoia-4560a09dd3.pdf",
         active: false
     },
     {
