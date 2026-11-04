@@ -127,8 +127,8 @@ Integración de conocimientos en proyectos reales mediante laboratorios y práct
         active: true
     },
     {
-        period: "2026",
-        role: "Curso de Desarrollo con IA (Finalizado)",
+        period: "2026 (Finalizado)",
+        role: "Curso de Desarrollo con IA",
         company: "BIG School",
         desc: `El curso se centra en aprender desarrollo de software apoyándose en herramientas de inteligencia artificial, no en copiar código.
 Enseña a usar NotebookLM como asistente de estudio y documentación para developers.
