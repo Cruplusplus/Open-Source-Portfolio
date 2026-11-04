@@ -269,7 +269,7 @@ window.filterProjects = (category) => {
     renderProjects();
 };
 
-// Render Projects Bento Grid
+// Render Projects 2x2 Grid (Only footer button enters the repo)
 function renderProjects() {
     if (!projectsGrid || typeof PROJECTS_DATA === 'undefined') return;
 
@@ -278,45 +278,23 @@ function renderProjects() {
         ? PROJECTS_DATA
         : PROJECTS_DATA.filter(p => getItemData(p).category === currentFilter);
 
-    projectsGrid.innerHTML = filtered.map((project, idx) => {
+    projectsGrid.innerHTML = filtered.map((project) => {
         const data = getItemData(project);
         const hasGithub = Boolean(project.githubUrl && project.githubUrl !== '#' && project.githubUrl.trim() !== '');
         const hasDemo = Boolean(project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl.trim() !== '');
-        const isFeatured = Boolean(project.featured || idx === 1); // Gym Database or featured flag
 
         const codeBtnLabel = getI18nText('btn_code') || 'Ver Repositorio';
         const demoBtnLabel = getI18nText('btn_demo') || 'Ver Demo';
 
         return `
-            <article class="project-card ${isFeatured ? 'featured' : ''}">
+            <article class="project-card">
                 <div class="card-header-row">
                     <div class="arch-badge">
                         <span>${data.category || 'Software'}</span>
                     </div>
-                    <div class="card-actions-quick">
-                        ${hasGithub ? `
-                            <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="GitHub Repository" aria-label="GitHub Repository">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert" style="width: 15px; height: 15px;">
-                            </a>
-                        ` : ''}
-                        ${hasDemo ? `
-                            <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="card-quick-link" title="Live Demo" aria-label="Live Demo">
-                                <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
-                            </a>
-                        ` : ''}
-                    </div>
                 </div>
 
-                <h3 class="project-title">
-                    ${hasGithub ? `
-                        <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer">
-                            <span>${data.title}</span>
-                            <span class="arrow-diag">↗</span>
-                        </a>
-                    ` : `
-                        <span>${data.title}</span>
-                    `}
-                </h3>
+                <h3 class="project-title">${data.title}</h3>
 
                 <p class="project-summary">${data.summary}</p>
 
@@ -327,13 +305,13 @@ function renderProjects() {
                 <div class="card-footer">
                     ${hasGithub ? `
                         <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert" style="width: 14px; height: 14px;">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert" style="width: 15px; height: 15px;">
                             <span>${codeBtnLabel}</span>
                         </a>
                     ` : ''}
                     ${hasDemo ? `
                         <a href="${project.liveDemoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-accent">
-                            <i data-lucide="external-link" style="width: 13px; height: 13px;"></i>
+                            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
                             <span>${demoBtnLabel}</span>
                         </a>
                     ` : ''}

@@ -335,7 +335,7 @@ code {
    SECTION HEADINGS & LAYOUT
    ======================================================== */
 .section-wrapper {
-  padding-top: 88px;
+  padding-top: 44px;
   padding-bottom: 44px;
 }
 
@@ -343,7 +343,7 @@ code {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .section-title {
@@ -360,17 +360,16 @@ code {
 }
 
 /* ========================================================
-   HERO SECTION (COMMANDING FOCAL POINT & MOTION LAYER)
+   HERO SECTION (COMMANDING FOCAL POINT & LINUX WINDOW)
    ======================================================== */
 .hero-section {
-  padding-top: calc(var(--header-height) + 64px);
-  padding-bottom: 80px;
-  border-bottom: 1px solid var(--border-dim);
+  padding-top: calc(var(--header-height) + 40px);
+  padding-bottom: 40px;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.55fr 1fr;
+  grid-template-columns: 1.45fr 1fr;
   gap: 48px;
   align-items: center;
 }
@@ -400,7 +399,7 @@ code {
   letter-spacing: -0.035em;
   color: var(--text-primary);
   line-height: 1.15;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .hero-name span,
@@ -409,57 +408,20 @@ code {
   font-weight: 800;
 }
 
-.hero-role-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
-  font-size: 0.86rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  letter-spacing: -0.01em;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  background-color: var(--accent);
-  border-radius: 50%;
-}
-
 .hero-role {
-  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
   font-weight: 600;
   color: var(--accent);
   letter-spacing: -0.015em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hero-role::before {
-  content: "//";
-  color: var(--text-tertiary);
-  font-weight: 400;
+  margin-bottom: 20px;
 }
 
 .hero-bio {
-  font-size: 1.1rem;
+  font-size: 1.08rem;
   color: var(--text-secondary);
   max-width: 580px;
   line-height: 1.68;
-  margin-bottom: 34px;
+  margin-bottom: 32px;
 }
 
 .hero-actions {
@@ -537,7 +499,9 @@ code {
   filter: invert(1);
 }
 
-/* Hero Portrait Media Frame */
+/* ========================================================
+   LINUX WINDOW FRAME (TERMINAL AESTHETIC)
+   ======================================================== */
 .hero-media {
   display: flex;
   justify-content: flex-end;
@@ -545,57 +509,109 @@ code {
   animation: heroEntrance 480ms var(--ease-snappy) both;
 }
 
-.editorial-frame {
+.linux-window {
   width: 100%;
-  max-width: 360px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-default);
+  max-width: 370px;
+  background: #111319;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md);
-  padding: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.55);
   display: flex;
   flex-direction: column;
-  position: relative;
   transition: var(--transition-fast);
 }
 
-.editorial-frame:hover {
+.linux-window:hover {
   border-color: var(--border-hover);
 }
 
-.frame-header {
+.linux-titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 6px 10px 6px;
+  padding: 10px 14px;
+  background: #161822;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.linux-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.win-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.win-btn.close {
+  background: #ef4444;
+}
+
+.win-btn.minimize {
+  background: #f59e0b;
+}
+
+.win-btn.maximize {
+  background: #10b981;
+}
+
+.linux-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.linux-term-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+}
+
+.linux-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #0f1117;
+}
+
+.linux-prompt {
   font-family: var(--font-mono);
   font-size: 0.82rem;
+  line-height: 1.4;
   color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-dim);
-  margin-bottom: 10px;
 }
 
-.frame-indicators {
-  display: flex;
-  gap: 5px;
+.prompt-user {
+  color: var(--accent);
+  font-weight: 600;
 }
 
-.frame-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #363c4e;
+.prompt-path {
+  color: #60a5fa;
 }
 
-.frame-image-wrapper {
+.prompt-cmd {
+  color: #f4f4f6;
+  font-weight: 600;
+}
+
+.linux-image-frame {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--bg-muted);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-dim);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.frame-image {
+.linux-portrait {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -603,35 +619,51 @@ code {
   transition: transform var(--duration-snappy) var(--ease-snappy);
 }
 
-.editorial-frame:hover .frame-image {
+.linux-window:hover .linux-portrait {
   transform: scale(1.02);
 }
 
-.frame-meta {
+.linux-statusbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 6px 4px 6px;
+  padding: 9px 14px;
+  background: #161822;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--text-secondary);
+  font-size: 0.76rem;
 }
 
-.meta-status {
+.status-branch {
+  color: var(--text-tertiary);
+}
+
+.status-badge-inline {
   color: var(--accent);
-  display: flex;
+  font-weight: 600;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+}
+
+.status-badge-inline::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
 }
 
 /* ========================================================
-   PROJECTS SECTION (BENTO GRID & FILTERS)
+   PROJECTS SECTION (2x2 BALANCED GRID)
    ======================================================== */
 .filters-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .filter-btn {
@@ -664,15 +696,15 @@ code {
 
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
 }
 
 .project-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  padding: 28px;
+  padding: 26px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -684,22 +716,12 @@ code {
   border-color: var(--border-hover);
 }
 
-.project-card.featured {
-  grid-column: span 2;
-  background: #161820;
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.project-card.featured:hover {
-  border-color: var(--border-hover);
-}
-
 .card-header-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .arch-badge {
@@ -715,69 +737,20 @@ code {
   padding: 4px 9px;
 }
 
-.card-actions-quick {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-quick-link {
-  color: var(--text-tertiary);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  border-radius: var(--radius-xs);
-  transition: var(--transition-fast);
-}
-
-.card-quick-link:hover {
-  color: var(--text-primary);
-}
-
-.card-quick-link:active {
-  transform: scale(0.92);
-}
-
 .project-title {
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
   margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   line-height: 1.3;
-}
-
-.project-title a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.arrow-diag {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  color: var(--text-tertiary);
-  transition: transform var(--duration-snappy) var(--ease-snappy),
-              color var(--duration-snappy) var(--ease-snappy);
-}
-
-.project-card:hover .arrow-diag,
-.timeline-item:hover .arrow-diag,
-.contact-cell:hover .arrow-diag {
-  transform: translate(3px, -3px);
-  color: var(--accent);
 }
 
 .project-summary {
   font-size: 1.02rem;
   color: var(--text-secondary);
   line-height: 1.65;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   flex-grow: 1;
 }
 
@@ -785,7 +758,7 @@ code {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .tech-tag {
@@ -809,7 +782,7 @@ code {
 
 .card-footer .btn {
   font-size: 0.84rem;
-  padding: 7px 14px;
+  padding: 8px 16px;
 }
 
 /* ========================================================
@@ -1329,10 +1302,6 @@ code {
 
   .bento-grid {
     grid-template-columns: 1fr;
-  }
-
-  .project-card.featured {
-    grid-column: span 1;
   }
 
   .stack-matrix {
