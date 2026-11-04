@@ -8,11 +8,12 @@
 
 :root {
   /* Carbon Matte Color Palette */
-  --bg-base: #0c0d10;
-  --bg-surface: #14161d;
-  --bg-surface-hover: #1c1f28;
-  --bg-elevated: #222632;
-  --bg-muted: #111318;
+  /* Obsidian Base & Surfaces (From rebuild frontend 1, without green glow) */
+  --bg-base: #070a08;
+  --bg-surface: #0e1410;
+  --bg-surface-hover: #141c16;
+  --bg-elevated: #1a241d;
+  --bg-muted: #0a0f0c;
 
   /* Subtle Surfaces & Boundaries */
   --border-dim: rgba(255, 255, 255, 0.05);
@@ -73,6 +74,9 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-base);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.65;
   min-height: 100dvh;
