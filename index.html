@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juan Cruz | Portfolio</title>
 
-    <meta name="description" content="Portafolio de Juan Cruz Dominguez Pistoia, Desarrollador orientado a Backend y Sistemas. C++, C#, .NET, Python, SQL y software de alto rendimiento.">
+    <meta name="description" content="Portafolio de Juan Cruz Dominguez Pistoia, Desarrollador orientado a Backend y Sistemas. C++, C#, .NET, Python, SQL Server y Docker.">
     <meta name="author" content="Juan Cruz Dominguez Pistoia">
 
     <meta property="og:type" content="website">
@@ -15,11 +15,11 @@
     <meta property="og:description" content="Portafolio personal de Juan Cruz Dominguez Pistoia. Estudiante UTN-FRGP y desarrollador backend.">
     <meta property="og:image" content="sources/Portrait.png">
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪲</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230c0d10'/><path d='M10 11L5 16L10 21M22 11L27 16L22 21M18 9L14 23' stroke='%2310b981' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- taste-skill-ignore -->
 
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -29,7 +29,7 @@
 
     <header class="site-header">
         <div class="container header-inner">
-            <a href="#inicio" class="brand-logo" title="Inicio">
+            <a href="#inicio" class="brand-logo" title="Inicio" aria-label="Inicio">
                 <span class="logo-sym">&lt;</span>
                 <span class="logo-text">port</span>
                 <span class="logo-sym">/</span>
@@ -37,15 +37,15 @@
                 <span class="logo-sym">&gt;</span>
             </a>
 
-            <nav class="nav-links">
-                <a href="#proyectos" class="nav-item" data-i18n="nav_projects">01 // Proyectos</a>
-                <a href="#stack" class="nav-item" data-i18n="nav_stack">02 // Stack</a>
-                <a href="#trayectoria" class="nav-item" data-i18n="nav_path">03 // Trayectoria</a>
-                <a href="#contacto" class="nav-item" data-i18n="nav_contact">04 // Contacto</a>
+            <nav class="nav-links" aria-label="Navegación principal">
+                <a href="#proyectos" class="nav-item" data-i18n="nav_projects">Proyectos</a>
+                <a href="#stack" class="nav-item" data-i18n="nav_stack">Stack & Habilidades</a>
+                <a href="#trayectoria" class="nav-item" data-i18n="nav_path">Trayectoria</a>
+                <a href="#contacto" class="nav-item" data-i18n="nav_contact">Contacto</a>
             </nav>
 
             <div class="header-actions">
-                <div class="lang-switcher">
+                <div class="lang-switcher" role="group" aria-label="Selector de idioma">
                     <button type="button" onclick="setLanguage('es')" id="btn-lang-es" class="lang-btn active">ES</button>
                     <button type="button" onclick="setLanguage('en')" id="btn-lang-en" class="lang-btn">EN</button>
                 </div>
@@ -62,11 +62,11 @@
         </div>
     </header>
 
-    <div id="mobile-drawer" class="mobile-drawer">
-        <a href="#proyectos" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_projects">01 // Proyectos</a>
-        <a href="#stack" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_stack">02 // Stack</a>
-        <a href="#trayectoria" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_path">03 // Trayectoria</a>
-        <a href="#contacto" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_contact">04 // Contacto</a>
+    <div id="mobile-drawer" class="mobile-drawer" aria-label="Menú móvil">
+        <a href="#proyectos" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_projects">Proyectos</a>
+        <a href="#stack" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_stack">Stack & Habilidades</a>
+        <a href="#trayectoria" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_path">Trayectoria</a>
+        <a href="#contacto" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_contact">Contacto</a>
         <a href="sources/MiCV.pdf" data-cv-link target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top: 8px;">
             <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
             <span data-i18n="btn_cv">Ver CV</span>
@@ -77,13 +77,8 @@
         <section class="hero-section">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <div class="status-pill">
-                        <span class="status-dot"></span>
-                        <span data-i18n="status_badge">STATUS // OPEN TO WORK</span>
-                    </div>
-
                     <h1 class="hero-name" data-i18n="hero_title">
-                        Juan Cruz Dominguez Pistoia
+                        Juan Cruz Dominguez <br><span class="hero-role-tag">Desarrollador Junior</span>
                     </h1>
 
                     <div class="hero-role" data-i18n="hero_role">
@@ -91,42 +86,47 @@
                     </div>
 
                     <p class="hero-bio" data-i18n="hero_desc">
-                        Estudiante de la Tecnicatura Universitaria en Programación (UTN - FRGP). Orientado al desarrollo backend, arquitectura de software y diseño de bases de datos con C#, .NET, C++, Python y SQL Server.
+                        Estudiante de la Tecnicatura Universitaria en Programación (UTN - FRGP). Actualmente orientado al desarrollo backend. Creando proyectos con código estructurado y legible, abierto para poder generar experiencias.
                     </p>
 
                     <div class="hero-actions">
                         <a href="#proyectos" class="btn btn-primary">
-                            <span data-i18n="btn_explore">Ver Proyectos</span>
-                            <i data-lucide="arrow-down" style="width: 14px; height: 14px;"></i>
+                            <span data-i18n="btn_explore">Explorar Proyectos</span>
+                            <i data-lucide="arrow-down" style="width: 15px; height: 15px;"></i>
                         </a>
                         <a href="https://github.com/Cruplusplus?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert">
                             <span>GitHub</span>
-                            <span style="font-size: 0.75rem; opacity: 0.7;">↗</span>
                         </a>
                         <a href="https://www.linkedin.com/in/juan-cruz-dominguez-pistoia-1830b4384" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" class="btn-icon-img">
                             <span>LinkedIn</span>
-                            <span style="font-size: 0.75rem; opacity: 0.7;">↗</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="hero-media">
-                    <div class="editorial-frame">
-                        <div class="frame-header">
-                            <span class="font-mono">ID // CRUPLUSPLUS</span>
-                            <div class="frame-indicators">
-                                <span class="frame-dot"></span>
-                                <span class="frame-dot"></span>
+                    <div class="linux-window">
+                        <div class="linux-titlebar">
+                            <div class="linux-controls">
+                                <span class="win-btn close"></span>
+                                <span class="win-btn minimize"></span>
+                                <span class="win-btn maximize"></span>
+                            </div>
+                            <div class="linux-title">cruz@fedora: ~/portfolio</div>
+                            <div class="linux-term-meta">bash</div>
+                        </div>
+                        <div class="linux-body">
+                            <div class="linux-prompt">
+                                <span class="prompt-user">cruz@fedora</span>:<span class="prompt-path">~</span>$ <span class="prompt-cmd">whoami</span>
+                            </div>
+                            <div class="linux-image-frame">
+                                <img src="sources/Portrait.png" alt="Juan Cruz Dominguez Pistoia" class="linux-portrait">
                             </div>
                         </div>
-                        <div class="frame-image-wrapper">
-                            <img src="sources/Portrait.png" alt="Juan Cruz Dominguez Pistoia" class="frame-image">
-                        </div>
-                        <div class="frame-meta">
-                            <span>UTN-FRGP // BUENOS AIRES, AR</span>
-                            <span class="meta-status">● ACTIVE</span>
+                        <div class="linux-statusbar">
+                            <span class="status-branch">git:(main)</span>
+                            <span class="status-badge-inline" data-i18n="status_badge">Status: Abierto a oportunidades</span>
                         </div>
                     </div>
                 </div>
@@ -135,8 +135,7 @@
 
         <section id="proyectos" class="section-wrapper">
             <div class="section-header">
-                <span class="section-tag">01 //</span>
-                <h2 class="section-title" data-i18n="section_projects">Proyectos</h2>
+                <h2 class="section-title" data-i18n="section_projects">Proyectos Destacados</h2>
                 <div class="section-line"></div>
             </div>
 
@@ -146,8 +145,7 @@
 
         <section id="stack" class="section-wrapper">
             <div class="section-header">
-                <span class="section-tag">02 //</span>
-                <h2 class="section-title" data-i18n="section_stack">Stack Técnico</h2>
+                <h2 class="section-title" data-i18n="section_stack">Stack & Habilidades</h2>
                 <div class="section-line"></div>
             </div>
 
@@ -156,8 +154,7 @@
 
         <section id="trayectoria" class="section-wrapper">
             <div class="section-header">
-                <span class="section-tag">03 //</span>
-                <h2 class="section-title" data-i18n="section_path">Trayectoria & Formación</h2>
+                <h2 class="section-title" data-i18n="section_path">Trayectoria</h2>
                 <div class="section-line"></div>
             </div>
 
@@ -166,7 +163,6 @@
 
         <section id="contacto" class="section-wrapper">
             <div class="section-header">
-                <span class="section-tag">04 //</span>
                 <h2 class="section-title" data-i18n="section_contact">Contacto</h2>
                 <div class="section-line"></div>
             </div>
@@ -175,7 +171,7 @@
                 <div class="contact-headline-group">
                     <h3 class="contact-title" data-i18n="contact_title">¿Tienes algún proyecto o propuesta laboral?</h3>
                     <p class="contact-subtitle" data-i18n="contact_subtitle">
-                        Estoy abierto a nuevas oportunidades de desarrollo backend, arquitectura de software y colaboraciones técnicas.
+                        Estoy abierto a nuevas oportunidades, proyectos backend y colaboraciones open source. ¡Hablemos!
                     </p>
                 </div>
 
@@ -208,7 +204,7 @@
                         </div>
                         <span class="contact-cell-action">
                             <span data-i18n="contact_view_profile">Ver perfil</span>
-                            <span>↗</span>
+                            <span class="arrow-diag">↗</span>
                         </span>
                     </a>
 
@@ -224,7 +220,7 @@
                         </div>
                         <span class="contact-cell-action">
                             <span data-i18n="contact_view_repo">Ver repositorios</span>
-                            <span>↗</span>
+                            <span class="arrow-diag">↗</span>
                         </span>
                     </a>
                 </div>
@@ -243,23 +239,23 @@
                     <span class="logo-sym">&gt;</span>
                 </a>
                 <p class="footer-desc" data-i18n="footer_text">
-                    Desarrollo de software estructurado, backend y modelado de datos.
+                    Proyecto de portafolio para uso personal open source
                 </p>
                 <div class="footer-credit">
-                    Ingeniería y diseño por <a href="https://github.com/Cruplusplus" target="_blank" rel="noopener noreferrer">Juan Cruz Dominguez Pistoia</a>
+                    Desarrollado por <a href="https://github.com/Cruplusplus" target="_blank" rel="noopener noreferrer">Juan Cruz Dominguez Pistoia</a>
                 </div>
             </div>
 
             <div class="footer-contact">
-                <button type="button" onclick="copyEmail()" class="btn-copy-email" id="btn-copy">
+                <button type="button" onclick="copyEmail()" class="btn-copy-email" id="btn-copy" aria-label="Copiar email de contacto">
                     <i data-lucide="mail" style="width: 14px; height: 14px;"></i>
                     <span>juancruzdominguezpistoia@gmail.com</span>
                     <i data-lucide="copy" class="copy-icon" id="copy-status-icon" style="width: 13px; height: 13px;"></i>
                 </button>
-                <a href="https://github.com/Cruplusplus?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn-social" title="GitHub">
+                <a href="https://github.com/Cruplusplus?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn-social" title="GitHub" aria-label="GitHub">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="btn-icon-img invert">
                 </a>
-                <a href="https://www.linkedin.com/in/juan-cruz-dominguez-pistoia-1830b4384" target="_blank" rel="noopener noreferrer" class="btn-social" title="LinkedIn">
+                <a href="https://www.linkedin.com/in/juan-cruz-dominguez-pistoia-1830b4384" target="_blank" rel="noopener noreferrer" class="btn-social" title="LinkedIn" aria-label="LinkedIn">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" class="btn-icon-img">
                 </a>
             </div>

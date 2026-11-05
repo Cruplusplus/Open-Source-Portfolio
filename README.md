@@ -1,30 +1,32 @@
 # <port/f>
 
-Un portafolio web de página única (SPA) diseñado con una estética de developer futurista pero no tan cargada de cosas, construido completamente con **Vanilla HTML5, Tailwind CSS y JavaScript**.
+Un portafolio web de página única (SPA) diseñado con estética técnica de ingeniería de software y terminal Linux, construido completamente con **Vanilla HTML5, CSS3 moderno y JavaScript (ES6+)**.
 
 ---
 
 ## Características Principales
 
-- **Estilo Visual Técnico & Moderno:** Efectos de *glassmorphism* (frosted glass), bordes brillantes en *hover*, paleta en tonos slate oscuros y acentos en cian eléctrico y violeta.
-- **Soporte Multilingüe (i18n):** Selector dinámico Español/Inglés sin recargar la página, actualizando automáticamente el atributo `lang` del DOM para garantizar accesibilidad.
-- **Stack & Habilidades (Estilo Bento Box):** Diseño visual tipo *bento grid* interactivo con logotipos oficiales (Devicons) e indicadores visuales de nivel (puntos de dominio).
-- **Proyectos Filtrables:** Galería de proyectos interactiva con filtrado dinámico por categorías (Backend, Bases de Datos, Desarrollo Web, etc.) y enlaces directos a código/demo.
-- **Trayectoria / Timeline:** Línea de tiempo interactiva con barra de progreso animada para la carrera universitaria y enlaces a certificados.
-- **Buenas Prácticas & SEO:** 
-  - Separación de responsabilidades: `data.js` (estado/datos) y `script.js` (lógica de UI).
-  - Enlaces externos protegidos con `rel="noopener noreferrer"`.
-  - Configuración completa de metadatos Open Graph, Twitter Cards y favicon SVG.
+- **Estética Técnica & Ventana Linux:** Marco interactivo en el Hero inspirado en una terminal Linux con controles de ventana, prompt `whoami` y barra de estado del sistema.
+- **Soporte Multilingüe (i18n):** Selector dinámico Español/Inglés sin recargar la página, con auto-traducción en segundo plano y persistencia en `localStorage`.
+- **CV Dinámico:** Enlace de descarga que conmuta automáticamente entre `MiCV.pdf` (ES) y `MyResume.pdf` (EN).
+- **Proyectos en Cuadrícula 2x2:** Galería interactiva equilibrada con filtros por categoría (Backend, Bases de Datos, Desarrollo Web) y acceso directo al repositorio por botón.
+- **Stack & Habilidades (Swiss Matrix):** Matriz visual estructurada con logotipos oficiales (Devicon) y niveles de dominio legibles.
+- **Trayectoria & Progreso Universitario:** Línea de tiempo con cálculo interactivo de materias aprobadas y en curso en la Universidad Tecnológica Nacional (UTN - FRGP).
+- **Copiado Rápido de Email:** Botón con retroalimentación instantánea ("¡Copiado!") y temporizador de restablecimiento.
+- **Arquitectura Limpia & Modular:** 
+  - `data.js`: Fuente única de verdad para proyectos, habilidades, cronología y traducciones.
+  - `styles.css`: Sistema de diseño con variables CSS, microinteracciones ágiles (`cubic-bezier(0.16, 1, 0.3, 1)`) y diseño 100% responsivo para móviles, tablets y desktop.
+  - `script.js`: Renderizado dinámico, eventos e internacionalización sin frameworks pesados.
 
 ---
 
 ## Tecnologías Utilizadas
 
-- **HTML5** (Estructura semántica y SEO)
-- **Tailwind CSS** vía CDN (Diseño responsivo y utilidades de estilo)
-- **JavaScript Vanilla (ES6+)** (Lógica de renderizado e i18n)
-- **Lucide Icons & Devicons** (Iconografía técnica y logos oficiales)
-- **Google Fonts** ('Inter' & 'JetBrains Mono' / 'Fira Code')
+- **HTML5** (Semántica accesible y SEO)
+- **CSS3 Moderno** (Variables CSS, CSS Grid, Flexbox, microinteracciones elásticas y estados táctiles `:active`)
+- **JavaScript Vanilla (ES6+)** (Lógica de renderizado dinámico, i18n y eventos)
+- **Lucide Icons & Devicon** (Iconografía técnica y logos oficiales de tecnologías)
+- **Google Fonts** ('Plus Jakarta Sans' para lectura y 'JetBrains Mono' para datos técnicos)
 
 ---
 
@@ -32,28 +34,29 @@ Un portafolio web de página única (SPA) diseñado con una estética de develop
 
 ```text
 Open-Source-Portfolio/
-├── index.html        # Estructura principal de la SPA y Meta Tags de SEO
-├── styles.css        # Estilos personalizados (scrollbar, animaciones, glassmorphism)
-├── script.js        # Lógica de renderizado, eventos y cambio de idioma
-├── data.js          # Datos estáticos (Proyectos, Habilidades, Trayectoria, Traducciones)
-└── sources/         # Recursos locales (Fotografía de perfil, CV en PDF)
-    ├── Portrait.png
-    ├── MiCV.pdf
-    └── MyResume.pdf
+├── index.html        # Estructura semántica de la SPA y metadatos SEO
+├── styles.css        # Sistema de diseño vanilla (paleta carbón, ventana Linux, grid 2x2)
+├── script.js        # Lógica de renderizado, i18n y microinteracciones
+├── data.js          # Datos estáticos (Proyectos, Habilidades, Trayectoria, i18n)
+└── sources/         # Recursos estáticos locales
+    ├── Portrait.png  # Fotografía de perfil para la ventana Linux
+    ├── MiCV.pdf      # Currículum en español
+    └── MyResume.pdf  # Currículum en inglés
 ```
 
 ---
 
 ## Instalación y Uso Local
 
-No requiere ningún entorno de ejecución complejo (Node.js, npm, bundlers, etc.).
+No requiere ningún entorno de ejecución complejo (Node.js, npm, bundlers ni compilación previa):
 
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/Cruplusplus/Open-Source-Portfolio.git
    ```
-2. Abre el archivo `index.html` directamente en tu navegador preferido.
-3. Actualmente el mío está en linea en la web de GitHub Pages: https://cruplusplus.github.io/Open-Source-Portfolio/
+2. Abre `index.html` directamente en tu navegador preferido o usa una extensión como *Live Server*.
+3. Versión en producción en GitHub Pages: [https://cruplusplus.github.io/Open-Source-Portfolio/](https://cruplusplus.github.io/Open-Source-Portfolio/)
+
 ---
 
 ## Autor
@@ -66,4 +69,4 @@ Desarrollado por **Juan Cruz Dominguez Pistoia**
 
 ## Licencia
 
-Este proyecto es Open Source y está disponible bajo la licencia [MIT](LICENSE). ¡Cualquiera es libre de usarlo como plantilla para tu propio portafolio!
+Este proyecto es Open Source y está disponible bajo la licencia [MIT](LICENSE). ¡Cualquiera es libre de usarlo como plantilla para su propio portafolio!
