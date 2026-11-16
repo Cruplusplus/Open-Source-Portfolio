@@ -185,14 +185,30 @@ function getI18nText(key) {
     return TRANSLATION_CACHE[cacheKey] || baseText;
 }
 
-function updateI18nDOM() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        const translated = getI18nText(key);
-        if (translated) {
-            el.innerHTML = translated;
-        }
-    });
+function updateI18nDOM(animate = false) {
+    const elements = document.querySelectorAll('[data-i18n]');
+    if (!animate) {
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const translated = getI18nText(key);
+            if (translated) {
+                el.innerHTML = translated;
+            }
+        });
+        return;
+    }
+
+    elements.forEach(el => el.classList.add('i18n-transitioning'));
+    setTimeout(() => {
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const translated = getI18nText(key);
+            if (translated) {
+                el.innerHTML = translated;
+            }
+            el.classList.remove('i18n-transitioning');
+        });
+    }, 100);
 }
 
 function setLanguage(lang) {
@@ -220,7 +236,7 @@ function setLanguage(lang) {
 
     currentFilter = getI18nText('filter_all') || 'Todos';
 
-    updateI18nDOM();
+    updateI18nDOM(true);
     renderFilters();
     renderProjects();
     renderSkills();
@@ -278,7 +294,7 @@ function renderProjects() {
         ? PROJECTS_DATA
         : PROJECTS_DATA.filter(p => getItemData(p).category === currentFilter);
 
-    projectsGrid.innerHTML = filtered.map((project) => {
+    projectsGrid.innerHTML = filtered.map((project, idx) => {
         const data = getItemData(project);
         const hasGithub = Boolean(project.githubUrl && project.githubUrl !== '#' && project.githubUrl.trim() !== '');
         const hasDemo = Boolean(project.liveDemoUrl && project.liveDemoUrl !== '#' && project.liveDemoUrl.trim() !== '');
@@ -287,7 +303,7 @@ function renderProjects() {
         const demoBtnLabel = getI18nText('btn_demo') || 'Ver Demo';
 
         return `
-            <article class="project-card">
+            <article class="project-card" style="--card-idx: ${idx};">
                 <div class="card-header-row">
                     <div class="arch-badge">
                         <span>${data.category || 'Software'}</span>
@@ -323,6 +339,7 @@ function renderProjects() {
     if (window.lucide) {
         lucide.createIcons();
     }
+    initSpotlight();
 }
 
 // Render Skills Matrix with authentic devicons
@@ -403,6 +420,7 @@ function renderSkills() {
     if (window.lucide) {
         lucide.createIcons();
     }
+    initSpotlight();
 }
 
 // Render Timeline & Progress Bar
@@ -441,7 +459,7 @@ function renderTimeline() {
                         <span class="progress-pct">${percentage}%</span>
                     </div>
                     <div class="progress-track">
-                        <div class="progress-fill" style="width: ${percentage}%"></div>
+                        <div class="progress-fill" data-progress-width="${percentage}%" style="width: 0%;"></div>
                     </div>
                     <div class="progress-metrics">
                         <span>${approvedLabel}: <strong class="metric-highlight">${item.progress.approved} / ${item.progress.total}</strong></span>
@@ -470,6 +488,7 @@ function renderTimeline() {
     if (window.lucide) {
         lucide.createIcons();
     }
+    observeProgressBars();
 }
 
 // Mobile drawer controls
@@ -533,9 +552,59 @@ window.copyEmail = () => {
     });
 };
 
+// Interactive spotlight border illumination (Linear / Vercel style)
+function initSpotlight() {
+    const cards = document.querySelectorAll('.project-card, .stack-category-block, .contact-cell');
+    cards.forEach(card => {
+        if (card.dataset.spotlightInit) return;
+        card.dataset.spotlightInit = 'true';
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+}
+
+// Progress bar animation on scroll with IntersectionObserver
+function observeProgressBars() {
+    const progressCards = document.querySelectorAll('.progress-card');
+    if (!progressCards.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+        progressCards.forEach(card => {
+            const fill = card.querySelector('.progress-fill');
+            if (fill && fill.dataset.progressWidth) {
+                fill.style.width = fill.dataset.progressWidth;
+            }
+        });
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const fill = entry.target.querySelector('.progress-fill');
+                if (fill && fill.dataset.progressWidth) {
+                    setTimeout(() => {
+                        fill.style.width = fill.dataset.progressWidth;
+                    }, 140);
+                }
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    progressCards.forEach(card => observer.observe(card));
+}
+
 // Initial setup
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('es');
+    initSpotlight();
+    observeProgressBars();
 
     console.log(
         "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nBackend & Systems Engineering // UTN-FRGP",
