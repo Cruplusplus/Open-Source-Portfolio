@@ -769,16 +769,6 @@ document.addEventListener('DOMContentLoaded', () => {
     observeProgressBars();
     initTerminalWindowAnimation();
 
-    // Allow re-triggering whoami animation on clicking the terminal window prompt or titlebar
-    const linuxWindow = document.querySelector('.linux-window');
-    if (linuxWindow) {
-        linuxWindow.addEventListener('click', (e) => {
-            if (e.target.closest('.linux-titlebar') || e.target.closest('.linux-prompt')) {
-                initTerminalWindowAnimation();
-            }
-        });
-    }
-
     console.log(
         "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nFull-Stack & Systems Engineering // UTN-FRGP",
         "background: #0c0d10; color: #10b981; font-family: monospace; font-size: 12px; font-weight: bold; padding: 6px 10px; border: 1px solid #10b981; border-radius: 4px;",
