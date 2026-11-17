@@ -190,6 +190,7 @@ function updateI18nDOM(animate = false) {
     if (!animate) {
         elements.forEach(el => {
             const key = el.getAttribute('data-i18n');
+            if (key === 'hero_role' || key === 'hero_desc') return;
             const translated = getI18nText(key);
             if (translated) {
                 el.innerHTML = translated;
@@ -198,10 +199,16 @@ function updateI18nDOM(animate = false) {
         return;
     }
 
-    elements.forEach(el => el.classList.add('i18n-transitioning'));
+    elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (key === 'hero_role' || key === 'hero_desc') return;
+        el.classList.add('i18n-transitioning');
+    });
+
     setTimeout(() => {
         elements.forEach(el => {
             const key = el.getAttribute('data-i18n');
+            if (key === 'hero_role' || key === 'hero_desc') return;
             const translated = getI18nText(key);
             if (translated) {
                 el.innerHTML = translated;
@@ -245,6 +252,7 @@ function setLanguage(lang) {
     renderProjects();
     renderSkills();
     renderTimeline();
+    initHeroTypewriter();
 
     if (lang === 'en') {
         translateAllData('en');
@@ -606,6 +614,7 @@ function observeProgressBars() {
 
 // Terminal Typewriter Effect for Hero (Role & Bio)
 let typewriterTimers = [];
+let typewriterRunId = 0;
 
 function clearTypewriterTimers() {
     typewriterTimers.forEach(t => clearTimeout(t));
@@ -613,7 +622,7 @@ function clearTypewriterTimers() {
     document.querySelectorAll('.typewriter-cursor').forEach(c => c.remove());
 }
 
-function runTypewriter(targetEl, text, speed, onComplete) {
+function runTypewriter(targetEl, text, baseSpeed, onComplete) {
     if (!targetEl) return;
     targetEl.textContent = '';
 
@@ -625,9 +634,21 @@ function runTypewriter(targetEl, text, speed, onComplete) {
     let idx = 0;
     function step() {
         if (idx < text.length) {
-            cursor.before(text.charAt(idx));
+            const char = text.charAt(idx);
+            cursor.before(char);
             idx++;
-            const t = setTimeout(step, speed);
+
+            let delay = baseSpeed;
+            if (char === '.' || char === '!' || char === '?') {
+                delay += 120;
+            } else if (char === ',' || char === ';' || char === ':') {
+                delay += 60;
+            } else {
+                // Subtle human typing rhythm jitter (±4ms)
+                delay += Math.floor(Math.random() * 8) - 4;
+            }
+
+            const t = setTimeout(step, Math.max(14, delay));
             typewriterTimers.push(t);
         } else {
             cursor.remove();
@@ -637,15 +658,32 @@ function runTypewriter(targetEl, text, speed, onComplete) {
     step();
 }
 
-function initHeroTypewriter() {
+async function initHeroTypewriter() {
     clearTypewriterTimers();
+    const runId = ++typewriterRunId;
 
     const roleEl = document.querySelector('.hero-role');
     const bioEl = document.querySelector('.hero-bio');
     if (!roleEl || !bioEl) return;
 
-    const roleText = getI18nText('hero_role') || roleEl.textContent.trim();
-    const bioText = getI18nText('hero_desc') || bioEl.textContent.trim();
+    // Retrieve texts; if non-es, ensure translations are loaded before typing starts
+    let roleText = (typeof I18N !== 'undefined' ? I18N.hero_role : '') || roleEl.textContent.trim();
+    let bioText = (typeof I18N !== 'undefined' ? I18N.hero_desc : '') || bioEl.textContent.trim();
+
+    if (currentLang !== 'es' && typeof I18N !== 'undefined') {
+        const [transRole, transBio] = await Promise.all([
+            translateText(I18N.hero_role, 'es', currentLang),
+            translateText(I18N.hero_desc, 'es', currentLang)
+        ]);
+
+        // If language switched again while waiting for network translation, abort stale run
+        if (runId !== typewriterRunId) return;
+
+        roleText = transRole || roleText;
+        bioText = transBio || bioText;
+    }
+
+    if (runId !== typewriterRunId) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         roleEl.textContent = roleText;
@@ -661,13 +699,15 @@ function initHeroTypewriter() {
 
     bioEl.textContent = '';
 
-    // Fast terminal typing speed: ~20ms for role, ~10ms for bio
-    runTypewriter(roleEl, roleText, 20, () => {
+    // Calibrated natural terminal typing cadence: ~48ms for role, ~22ms for bio
+    runTypewriter(roleEl, roleText, 48, () => {
+        if (runId !== typewriterRunId) return;
         const pauseTimer = setTimeout(() => {
-            runTypewriter(bioEl, bioText, 10, () => {
+            if (runId !== typewriterRunId) return;
+            runTypewriter(bioEl, bioText, 22, () => {
                 bioEl.style.minHeight = '';
             });
-        }, 160);
+        }, 280);
         typewriterTimers.push(pauseTimer);
     });
 }
@@ -677,10 +717,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage('es');
     initSpotlight();
     observeProgressBars();
-    initHeroTypewriter();
 
     console.log(
-        "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nBackend & Systems Engineering // UTN-FRGP",
+        "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nFull-Stack & Systems Engineering // UTN-FRGP",
         "background: #0c0d10; color: #10b981; font-family: monospace; font-size: 12px; font-weight: bold; padding: 6px 10px; border: 1px solid #10b981; border-radius: 4px;",
         "color: #8e939e; font-size: 11px; padding: 4px;"
     );
