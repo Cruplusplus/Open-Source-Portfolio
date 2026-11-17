@@ -669,7 +669,7 @@ async function initHeroTypewriter() {
     if (!roleEl || !bioEl) return;
 
     // Retrieve texts; if non-es, ensure translations are loaded before typing starts
-    let roleText = (typeof I18N !== 'undefined' ? I18N.hero_role : '') || roleEl.textContent.trim();
+    let roleText = (typeof I18N !== 'undefined' ? I18N.hero_role : '') || roleEl.textContent.trim() || 'Full-Stack - Part/Full Time';
     let bioText = (typeof I18N !== 'undefined' ? I18N.hero_desc : '') || bioEl.textContent.trim();
 
     if (currentLang !== 'es' && typeof I18N !== 'undefined') {

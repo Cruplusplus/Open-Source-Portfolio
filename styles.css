@@ -1521,6 +1521,7 @@ code {
 
   .hero-bio {
     font-size: 1rem;
+    min-height: 5.6rem;
   }
 }
 
