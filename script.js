@@ -226,6 +226,9 @@ function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
 
+    // Persist language preference across reloads
+    try { localStorage.setItem('preferred_lang', lang); } catch (e) {}
+
     const btnEs = document.getElementById('btn-lang-es');
     const btnEn = document.getElementById('btn-lang-en');
 
@@ -764,7 +767,8 @@ function initTerminalWindowAnimation() {
 
 // Initial setup
 document.addEventListener('DOMContentLoaded', () => {
-    setLanguage('es');
+    const savedLang = (() => { try { return localStorage.getItem('preferred_lang'); } catch (e) { return null; } })();
+    setLanguage(savedLang === 'en' ? 'en' : 'es');
     initSpotlight();
     observeProgressBars();
     initTerminalWindowAnimation();
