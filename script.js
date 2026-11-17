@@ -726,10 +726,12 @@ let terminalAnimationTimer = null;
 function initTerminalWindowAnimation() {
     const cmdEl = document.querySelector('.prompt-cmd');
     const portraitEl = document.querySelector('.linux-portrait');
-    if (!cmdEl || !portraitEl) return;
+    const frameEl = document.querySelector('.linux-image-frame');
+    if (!cmdEl || !portraitEl || !frameEl) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         cmdEl.textContent = 'whoami';
+        frameEl.classList.add('frame-visible');
         portraitEl.classList.remove('terminal-hidden');
         portraitEl.classList.add('terminal-loaded');
         return;
