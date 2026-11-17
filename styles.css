@@ -433,18 +433,26 @@ code {
 .typewriter-cursor {
   display: inline-block;
   width: 8px;
-  height: 1.15em;
-  vertical-align: -2px;
+  height: 14px;
+  vertical-align: -1px;
   background-color: var(--accent);
   margin-left: 3px;
-  animation: cursorBlink 0.75s infinite step-start;
+  animation: cursorBlink 1.05s infinite step-start;
+  transition: background-color var(--duration-snappy) var(--ease-snappy);
 }
 
 .hero-bio .typewriter-cursor {
-  width: 6px;
-  height: 1em;
+  width: 8px;
+  height: 14px;
   vertical-align: -1px;
-  background-color: var(--text-secondary);
+  background-color: var(--accent);
+  margin-left: 4px;
+  animation: cursorBlink 1.05s infinite step-start;
+  transition: background-color var(--duration-snappy) var(--ease-snappy);
+}
+
+.hero-bio:hover .typewriter-cursor {
+  background-color: #38bdf8;
 }
 
 .hero-actions {
@@ -653,9 +661,10 @@ code {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--bg-muted);
+  background: #090a0f;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
 }
 
 .linux-portrait {
@@ -663,10 +672,27 @@ code {
   height: 100%;
   object-fit: cover;
   filter: contrast(102%) brightness(98%);
-  transition: transform var(--duration-snappy) var(--ease-snappy);
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.linux-window:hover .linux-portrait {
+.linux-portrait.terminal-hidden {
+  opacity: 0;
+  transform: scale(0.96);
+  filter: contrast(110%) brightness(40%) blur(2px);
+  pointer-events: none;
+}
+
+.linux-portrait.terminal-loaded {
+  opacity: 1;
+  transform: scale(1);
+  filter: contrast(102%) brightness(98%) blur(0);
+}
+
+.linux-window:hover .linux-portrait.terminal-loaded {
   transform: scale(1.02);
 }
 

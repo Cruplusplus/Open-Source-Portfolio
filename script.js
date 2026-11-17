@@ -622,7 +622,7 @@ function clearTypewriterTimers() {
     document.querySelectorAll('.typewriter-cursor').forEach(c => c.remove());
 }
 
-function runTypewriter(targetEl, text, baseSpeed, onComplete) {
+function runTypewriter(targetEl, text, baseSpeed, onComplete, keepCursor = false) {
     if (!targetEl) return;
     targetEl.textContent = '';
 
@@ -651,7 +651,9 @@ function runTypewriter(targetEl, text, baseSpeed, onComplete) {
             const t = setTimeout(step, Math.max(14, delay));
             typewriterTimers.push(t);
         } else {
-            cursor.remove();
+            if (!keepCursor) {
+                cursor.remove();
+            }
             if (onComplete) onComplete();
         }
     }
@@ -704,12 +706,60 @@ async function initHeroTypewriter() {
         if (runId !== typewriterRunId) return;
         const pauseTimer = setTimeout(() => {
             if (runId !== typewriterRunId) return;
+            // keepCursor = true leaves the terminal blinking cursor at the end of bio
             runTypewriter(bioEl, bioText, 22, () => {
                 bioEl.style.minHeight = '';
-            });
+            }, true);
         }, 280);
         typewriterTimers.push(pauseTimer);
-    });
+    }, false);
+}
+
+// Linux Window Terminal Animation ('whoami' command typing + portrait reveal)
+let terminalAnimationTimer = null;
+
+function initTerminalWindowAnimation() {
+    const cmdEl = document.querySelector('.prompt-cmd');
+    const portraitEl = document.querySelector('.linux-portrait');
+    if (!cmdEl || !portraitEl) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        cmdEl.textContent = 'whoami';
+        portraitEl.classList.remove('terminal-hidden');
+        portraitEl.classList.add('terminal-loaded');
+        return;
+    }
+
+    if (terminalAnimationTimer) {
+        clearTimeout(terminalAnimationTimer);
+        terminalAnimationTimer = null;
+    }
+
+    cmdEl.textContent = '';
+    portraitEl.classList.add('terminal-hidden');
+    portraitEl.classList.remove('terminal-loaded');
+
+    const cmdText = 'whoami';
+    let idx = 0;
+
+    // Brief terminal ready delay before typing command
+    terminalAnimationTimer = setTimeout(() => {
+        function typeChar() {
+            if (idx < cmdText.length) {
+                cmdEl.textContent += cmdText.charAt(idx);
+                idx++;
+                const delay = 75 + Math.floor(Math.random() * 30);
+                terminalAnimationTimer = setTimeout(typeChar, delay);
+            } else {
+                // Simulates pressing Enter, then image output loads
+                terminalAnimationTimer = setTimeout(() => {
+                    portraitEl.classList.remove('terminal-hidden');
+                    portraitEl.classList.add('terminal-loaded');
+                }, 220);
+            }
+        }
+        typeChar();
+    }, 320);
 }
 
 // Initial setup
@@ -717,6 +767,17 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage('es');
     initSpotlight();
     observeProgressBars();
+    initTerminalWindowAnimation();
+
+    // Allow re-triggering whoami animation on clicking the terminal window prompt or titlebar
+    const linuxWindow = document.querySelector('.linux-window');
+    if (linuxWindow) {
+        linuxWindow.addEventListener('click', (e) => {
+            if (e.target.closest('.linux-titlebar') || e.target.closest('.linux-prompt')) {
+                initTerminalWindowAnimation();
+            }
+        });
+    }
 
     console.log(
         "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nFull-Stack & Systems Engineering // UTN-FRGP",
