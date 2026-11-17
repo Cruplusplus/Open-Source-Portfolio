@@ -429,30 +429,28 @@ code {
   min-height: 4.8rem;
 }
 
-/* Terminal Typewriter Cursor */
+/* Terminal Typewriter Cursor - Matches the color of the last letter */
 .typewriter-cursor {
   display: inline-block;
   width: 8px;
   height: 14px;
   vertical-align: -1px;
-  background-color: var(--accent);
+  background-color: currentColor;
   margin-left: 3px;
   animation: cursorBlink 1.05s infinite step-start;
-  transition: background-color var(--duration-snappy) var(--ease-snappy);
+}
+
+.hero-role .typewriter-cursor {
+  background-color: var(--accent);
 }
 
 .hero-bio .typewriter-cursor {
   width: 8px;
   height: 14px;
   vertical-align: -1px;
-  background-color: var(--accent);
+  background-color: var(--text-secondary);
   margin-left: 4px;
   animation: cursorBlink 1.05s infinite step-start;
-  transition: background-color var(--duration-snappy) var(--ease-snappy);
-}
-
-.hero-bio:hover .typewriter-cursor {
-  background-color: #38bdf8;
 }
 
 .hero-actions {
@@ -638,10 +636,14 @@ code {
   width: 8px;
   height: 14px;
   vertical-align: -1px;
-  background-color: var(--accent);
+  background-color: #f4f4f6;
   margin-left: 4px;
   animation: cursorBlink 1.05s infinite step-start;
   transition: background-color var(--duration-snappy) var(--ease-snappy);
+}
+
+.prompt-cmd:empty + .terminal-cursor {
+  background-color: var(--text-secondary);
 }
 
 @keyframes cursorBlink {
@@ -651,10 +653,6 @@ code {
   50% {
     opacity: 0;
   }
-}
-
-.linux-window:hover .terminal-cursor {
-  background-color: #38bdf8;
 }
 
 .linux-image-frame {
