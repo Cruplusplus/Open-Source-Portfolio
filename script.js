@@ -212,6 +212,10 @@ function updateI18nDOM(animate = false) {
 }
 
 function setLanguage(lang) {
+    clearTypewriterTimers();
+    const bioEl = document.querySelector('.hero-bio');
+    if (bioEl) bioEl.style.minHeight = '';
+
     currentLang = lang;
     document.documentElement.lang = lang;
 
@@ -600,11 +604,80 @@ function observeProgressBars() {
     progressCards.forEach(card => observer.observe(card));
 }
 
+// Terminal Typewriter Effect for Hero (Role & Bio)
+let typewriterTimers = [];
+
+function clearTypewriterTimers() {
+    typewriterTimers.forEach(t => clearTimeout(t));
+    typewriterTimers = [];
+    document.querySelectorAll('.typewriter-cursor').forEach(c => c.remove());
+}
+
+function runTypewriter(targetEl, text, speed, onComplete) {
+    if (!targetEl) return;
+    targetEl.textContent = '';
+
+    const cursor = document.createElement('span');
+    cursor.className = 'typewriter-cursor';
+    cursor.setAttribute('aria-hidden', 'true');
+    targetEl.appendChild(cursor);
+
+    let idx = 0;
+    function step() {
+        if (idx < text.length) {
+            cursor.before(text.charAt(idx));
+            idx++;
+            const t = setTimeout(step, speed);
+            typewriterTimers.push(t);
+        } else {
+            cursor.remove();
+            if (onComplete) onComplete();
+        }
+    }
+    step();
+}
+
+function initHeroTypewriter() {
+    clearTypewriterTimers();
+
+    const roleEl = document.querySelector('.hero-role');
+    const bioEl = document.querySelector('.hero-bio');
+    if (!roleEl || !bioEl) return;
+
+    const roleText = getI18nText('hero_role') || roleEl.textContent.trim();
+    const bioText = getI18nText('hero_desc') || bioEl.textContent.trim();
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        roleEl.textContent = roleText;
+        bioEl.textContent = bioText;
+        return;
+    }
+
+    // Set temporary minHeight on bio to avoid layout shift while typing
+    const measuredHeight = bioEl.offsetHeight;
+    if (measuredHeight > 0) {
+        bioEl.style.minHeight = `${measuredHeight}px`;
+    }
+
+    bioEl.textContent = '';
+
+    // Fast terminal typing speed: ~20ms for role, ~10ms for bio
+    runTypewriter(roleEl, roleText, 20, () => {
+        const pauseTimer = setTimeout(() => {
+            runTypewriter(bioEl, bioText, 10, () => {
+                bioEl.style.minHeight = '';
+            });
+        }, 160);
+        typewriterTimers.push(pauseTimer);
+    });
+}
+
 // Initial setup
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('es');
     initSpotlight();
     observeProgressBars();
+    initHeroTypewriter();
 
     console.log(
         "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nBackend & Systems Engineering // UTN-FRGP",

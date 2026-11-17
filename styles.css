@@ -417,6 +417,7 @@ code {
   color: var(--accent);
   letter-spacing: -0.015em;
   margin-bottom: 20px;
+  min-height: 1.6em;
 }
 
 .hero-bio {
@@ -425,6 +426,25 @@ code {
   max-width: 580px;
   line-height: 1.68;
   margin-bottom: 32px;
+  min-height: 4.8rem;
+}
+
+/* Terminal Typewriter Cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.15em;
+  vertical-align: -2px;
+  background-color: var(--accent);
+  margin-left: 3px;
+  animation: cursorBlink 0.75s infinite step-start;
+}
+
+.hero-bio .typewriter-cursor {
+  width: 6px;
+  height: 1em;
+  vertical-align: -1px;
+  background-color: var(--text-secondary);
 }
 
 .hero-actions {
@@ -1505,9 +1525,11 @@ code {
   .progress-fill {
     transition: none !important;
   }
-  .terminal-cursor {
+  .terminal-cursor,
+  .typewriter-cursor {
     animation: none !important;
     opacity: 1 !important;
+    display: none !important;
   }
   .project-card::before,
   .stack-category-block::before,
