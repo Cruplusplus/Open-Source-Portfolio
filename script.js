@@ -712,6 +712,8 @@ async function initHeroTypewriter() {
             // keepCursor = true leaves the terminal blinking cursor at the end of bio
             runTypewriter(bioEl, bioText, 22, () => {
                 bioEl.style.minHeight = '';
+                // Sync all cursors to the same blink phase once bio cursor appears
+                syncCursorBlink();
             }, true);
         }, 280);
         typewriterTimers.push(pauseTimer);
@@ -756,13 +758,29 @@ function initTerminalWindowAnimation() {
             } else {
                 // Simulates pressing Enter, then portrait fades in
                 terminalAnimationTimer = setTimeout(() => {
-                    portraitEl.classList.remove('terminal-hidden');
-                    portraitEl.classList.add('terminal-loaded');
+                    frameEl.classList.add('frame-visible');
+                    setTimeout(() => {
+                        portraitEl.classList.remove('terminal-hidden');
+                        portraitEl.classList.add('terminal-loaded');
+                        // Sync the terminal cursor with any typewriter cursors
+                        syncCursorBlink();
+                    }, 60);
                 }, 220);
             }
         }
         typeChar();
     }, 320);
+}
+
+// Sync all blinking cursors to the same animation phase
+function syncCursorBlink() {
+    const cursors = document.querySelectorAll('.typewriter-cursor, .terminal-cursor');
+    cursors.forEach(c => {
+        c.style.animation = 'none';
+        // Force reflow so the browser registers the reset
+        void c.offsetWidth;
+        c.style.animation = '';
+    });
 }
 
 // Initial setup
