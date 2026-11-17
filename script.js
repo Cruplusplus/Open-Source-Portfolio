@@ -724,12 +724,10 @@ let terminalAnimationTimer = null;
 function initTerminalWindowAnimation() {
     const cmdEl = document.querySelector('.prompt-cmd');
     const portraitEl = document.querySelector('.linux-portrait');
-    const frameEl = document.querySelector('.linux-image-frame');
-    if (!cmdEl || !portraitEl || !frameEl) return;
+    if (!cmdEl || !portraitEl) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         cmdEl.textContent = 'whoami';
-        frameEl.classList.add('frame-visible');
         portraitEl.classList.remove('terminal-hidden');
         portraitEl.classList.add('terminal-loaded');
         return;
@@ -743,7 +741,6 @@ function initTerminalWindowAnimation() {
     cmdEl.textContent = '';
     portraitEl.classList.add('terminal-hidden');
     portraitEl.classList.remove('terminal-loaded');
-    frameEl.classList.remove('frame-visible');
 
     const cmdText = 'whoami';
     let idx = 0;
@@ -757,14 +754,10 @@ function initTerminalWindowAnimation() {
                 const delay = 75 + Math.floor(Math.random() * 30);
                 terminalAnimationTimer = setTimeout(typeChar, delay);
             } else {
-                // Simulates pressing Enter, then image output loads
+                // Simulates pressing Enter, then portrait fades in
                 terminalAnimationTimer = setTimeout(() => {
-                    frameEl.classList.add('frame-visible');
-                    // Small stagger so frame starts opening before portrait fades in
-                    setTimeout(() => {
-                        portraitEl.classList.remove('terminal-hidden');
-                        portraitEl.classList.add('terminal-loaded');
-                    }, 120);
+                    portraitEl.classList.remove('terminal-hidden');
+                    portraitEl.classList.add('terminal-loaded');
                 }, 220);
             }
         }
