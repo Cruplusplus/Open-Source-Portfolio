@@ -142,7 +142,7 @@ Todo el contenido llega a través de una comunidad privada de WhatsApp, con cons
         active: false
     },
     {
-        period: "Ago2026 - ~Nov2026 (Cursando)",
+        period: "Ago2026 - ~Nov2026 (Finalizado)",
         role: "Curso Python",
         company: "",
         desc: `Incluye el manejo práctico de módulos, paquetes y archivos TXT/CSV para el procesamiento de datos.
@@ -150,7 +150,7 @@ Introduce herramientas avanzadas como excepciones y expresiones regulares.
 El aprendizaje se consolida mediante ejercicios prácticos, enfocado en la resolución de problemas reales y el desarrollo de software profesional.`,
         img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
         link: "https://www.youtube.com/watch?v=nKPbfIU442g",
-        active: true
+        active: false
     },
     {
         period: "2024 (Certificado)",

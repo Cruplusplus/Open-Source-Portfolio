@@ -417,6 +417,7 @@ code {
   color: var(--accent);
   letter-spacing: -0.015em;
   margin-bottom: 20px;
+  min-height: 1.6em;
 }
 
 .hero-bio {
@@ -425,6 +426,31 @@ code {
   max-width: 580px;
   line-height: 1.68;
   margin-bottom: 32px;
+  min-height: 4.8rem;
+}
+
+/* Terminal Typewriter Cursor - Matches the color of the last letter */
+.typewriter-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  vertical-align: -1px;
+  background-color: currentColor;
+  margin-left: 3px;
+  animation: cursorBlink 1.05s infinite step-start;
+}
+
+.hero-role .typewriter-cursor {
+  background-color: var(--accent);
+}
+
+.hero-bio .typewriter-cursor {
+  width: 8px;
+  height: 14px;
+  vertical-align: -1px;
+  background-color: var(--text-secondary);
+  margin-left: 4px;
+  animation: cursorBlink 1.05s infinite step-start;
 }
 
 .hero-actions {
@@ -610,10 +636,14 @@ code {
   width: 8px;
   height: 14px;
   vertical-align: -1px;
-  background-color: var(--accent);
+  background-color: #f4f4f6;
   margin-left: 4px;
   animation: cursorBlink 1.05s infinite step-start;
   transition: background-color var(--duration-snappy) var(--ease-snappy);
+}
+
+.prompt-cmd:empty + .terminal-cursor {
+  background-color: var(--text-secondary);
 }
 
 @keyframes cursorBlink {
@@ -625,17 +655,20 @@ code {
   }
 }
 
-.linux-window:hover .terminal-cursor {
-  background-color: #38bdf8;
-}
-
 .linux-image-frame {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--bg-muted);
+  background: transparent;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid transparent;
+  position: relative;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.linux-image-frame.frame-visible {
+  background: #090a0f;
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .linux-portrait {
@@ -643,10 +676,27 @@ code {
   height: 100%;
   object-fit: cover;
   filter: contrast(102%) brightness(98%);
-  transition: transform var(--duration-snappy) var(--ease-snappy);
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.linux-window:hover .linux-portrait {
+.linux-portrait.terminal-hidden {
+  opacity: 0;
+  transform: scale(0.97);
+  filter: contrast(110%) brightness(40%) blur(2px);
+  pointer-events: none;
+}
+
+.linux-portrait.terminal-loaded {
+  opacity: 1;
+  transform: scale(1);
+  filter: contrast(102%) brightness(98%) blur(0);
+}
+
+.linux-window:hover .linux-portrait.terminal-loaded {
   transform: scale(1.02);
 }
 
@@ -1477,6 +1527,7 @@ code {
 
   .hero-bio {
     font-size: 1rem;
+    min-height: 5.6rem;
   }
 }
 
@@ -1505,9 +1556,11 @@ code {
   .progress-fill {
     transition: none !important;
   }
-  .terminal-cursor {
+  .terminal-cursor,
+  .typewriter-cursor {
     animation: none !important;
     opacity: 1 !important;
+    display: none !important;
   }
   .project-card::before,
   .stack-category-block::before,
