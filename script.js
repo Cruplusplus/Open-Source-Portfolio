@@ -13,6 +13,47 @@ let currentFilter = 'Todos';
 // LocalStorage translation cache
 const TRANSLATION_CACHE = JSON.parse(localStorage.getItem('auto_translation_cache') || '{}');
 
+// Clean raw translations: strip XML/HTML tags (e.g. <g id="1"> from MyMemory) and decode entities
+function cleanTranslatedText(raw) {
+    if (!raw || typeof raw !== 'string') return raw;
+    let text = raw.replace(/<[^>]+>/g, '');
+    text = text
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>');
+    return text.trim();
+}
+
+// Escape HTML attributes to avoid broken markup from quotes or special characters
+function escapeAttr(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// Sanitize and purge corrupted strings from existing translation cache in localStorage
+try {
+    let dirty = false;
+    for (const key in TRANSLATION_CACHE) {
+        if (typeof TRANSLATION_CACHE[key] === 'string') {
+            const cleaned = cleanTranslatedText(TRANSLATION_CACHE[key]);
+            if (cleaned !== TRANSLATION_CACHE[key]) {
+                TRANSLATION_CACHE[key] = cleaned;
+                dirty = true;
+            }
+        }
+    }
+    if (dirty) {
+        localStorage.setItem('auto_translation_cache', JSON.stringify(TRANSLATION_CACHE));
+    }
+} catch (e) {}
+
 // Save translation cache with safety
 function saveTranslationCache() {
     try {
@@ -21,6 +62,16 @@ function saveTranslationCache() {
         console.warn('Unable to persist translation cache to localStorage', e);
     }
 }
+
+// Static trusted translations for core academic and course items
+const STATIC_TRANSLATIONS = {
+    'Curso Python': 'Python Course',
+    'Curso HTML/CSS': 'HTML/CSS Course',
+    'Curso de Desarrollo con IA': 'AI Development Course',
+    'Técnico Universitario en Programación': 'University Technician in Programming',
+    'Bachiller en Economía y Administración': 'High School Diploma in Economics and Administration',
+    'Posee Título Secundario': 'High School Degree'
+};
 
 // Translate single text string with fallbacks
 async function translateText(text, fromLang = 'es', toLang = 'en') {
@@ -32,9 +83,13 @@ async function translateText(text, fromLang = 'es', toLang = 'en') {
         return cleanText;
     }
 
+    if (STATIC_TRANSLATIONS[cleanText] && toLang === 'en') {
+        return STATIC_TRANSLATIONS[cleanText];
+    }
+
     const cacheKey = `${fromLang}_${toLang}_${cleanText}`;
     if (TRANSLATION_CACHE[cacheKey]) {
-        return TRANSLATION_CACHE[cacheKey];
+        return cleanTranslatedText(TRANSLATION_CACHE[cacheKey]);
     }
 
     // Attempt 1: Google Translate API
@@ -45,9 +100,10 @@ async function translateText(text, fromLang = 'es', toLang = 'en') {
             const data = await res.json();
             const translated = data[0].map(item => item[0]).join('');
             if (translated && translated.trim()) {
-                TRANSLATION_CACHE[cacheKey] = translated;
+                const cleaned = cleanTranslatedText(translated);
+                TRANSLATION_CACHE[cacheKey] = cleaned;
                 saveTranslationCache();
-                return translated;
+                return cleaned;
             }
         }
     } catch (e) {
@@ -62,9 +118,10 @@ async function translateText(text, fromLang = 'es', toLang = 'en') {
             const data2 = await res2.json();
             const translated2 = data2.responseData?.translatedText;
             if (translated2 && translated2.trim()) {
-                TRANSLATION_CACHE[cacheKey] = translated2;
+                const cleaned2 = cleanTranslatedText(translated2);
+                TRANSLATION_CACHE[cacheKey] = cleaned2;
                 saveTranslationCache();
-                return translated2;
+                return cleaned2;
             }
         }
     } catch (e) {
@@ -92,8 +149,9 @@ function getItemData(item) {
     }
 
     const autoData = { ...baseData };
+    const translatableKeys = ['title', 'category', 'summary', 'role', 'company', 'desc', 'period'];
 
-    for (const key in baseData) {
+    for (const key of translatableKeys) {
         if (typeof baseData[key] === 'string' && baseData[key].trim()) {
             const str = baseData[key].trim();
 
@@ -101,9 +159,14 @@ function getItemData(item) {
                 continue;
             }
 
+            if (STATIC_TRANSLATIONS[str]) {
+                autoData[key] = STATIC_TRANSLATIONS[str];
+                continue;
+            }
+
             const cacheKey = `es_en_${str}`;
             if (TRANSLATION_CACHE[cacheKey]) {
-                autoData[key] = TRANSLATION_CACHE[cacheKey];
+                autoData[key] = cleanTranslatedText(TRANSLATION_CACHE[cacheKey]);
             }
         }
     }
@@ -470,8 +533,9 @@ function renderTimeline() {
 
     timelineContainer.innerHTML = TIMELINE_DATA.map(item => {
         const data = getItemData(item);
+        const safeAlt = escapeAttr(data.company || data.role);
         const imgTag = item.img
-            ? `<img src="${item.img}" alt="${data.company || data.role}" class="timeline-org-logo">`
+            ? `<img src="${item.img}" alt="${safeAlt}" class="timeline-org-logo">`
             : '';
         const linkText = currentLang === 'es' ? 'Ver credencial / curso' : 'View credential / course';
         const linkTag = item.link

@@ -1084,13 +1084,17 @@ code {
   color: var(--text-primary);
 }
 
+.timeline-header-row img,
 .timeline-org-logo {
   height: 24px;
+  max-height: 24px;
+  max-width: 60px;
   width: auto;
   border-radius: var(--radius-xs);
   background: rgba(255, 255, 255, 0.08);
   padding: 3px 5px;
   border: 1px solid var(--border-dim);
+  object-fit: contain;
 }
 
 .timeline-company {
