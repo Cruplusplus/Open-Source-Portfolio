@@ -46,6 +46,7 @@
             </a>
 
             <nav class="nav-links" aria-label="Navegación principal">
+                <a href="#sobre-mi" class="nav-item" data-i18n="nav_about">Sobre mí</a>
                 <a href="#proyectos" class="nav-item" data-i18n="nav_projects">Proyectos</a>
                 <a href="#stack" class="nav-item" data-i18n="nav_stack">Stack & Habilidades</a>
                 <a href="#trayectoria" class="nav-item" data-i18n="nav_path">Trayectoria</a>
@@ -71,6 +72,7 @@
     </header>
 
     <div id="mobile-drawer" class="mobile-drawer" aria-label="Menú móvil">
+        <a href="#sobre-mi" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_about">Sobre mí</a>
         <a href="#proyectos" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_projects">Proyectos</a>
         <a href="#stack" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_stack">Stack & Habilidades</a>
         <a href="#trayectoria" onclick="closeMobileMenu()" class="nav-item" data-i18n="nav_path">Trayectoria</a>
@@ -133,6 +135,30 @@
                             <span class="status-badge-inline" data-i18n="status_badge">Status: Abierto a oportunidades</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre-mi" class="section-wrapper">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="section_about">Sobre mí</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-narrative">
+                    <p class="about-paragraph" data-i18n="about_p1"></p>
+                    <p class="about-paragraph" data-i18n="about_p2"></p>
+                    <p class="about-paragraph" data-i18n="about_p3"></p>
+                </div>
+
+                <div class="about-highlights">
+                    <h3 class="about-highlights-title" data-i18n="about_highlights_title">Tres cosas que no verás en mi CV</h3>
+                    <ul class="about-highlights-list">
+                        <li class="about-highlight-item" data-i18n="about_highlight_1"></li>
+                        <li class="about-highlight-item" data-i18n="about_highlight_2"></li>
+                        <li class="about-highlight-item" data-i18n="about_highlight_3"></li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -231,6 +257,59 @@
             </div>
         </section>
     </main>
+
+    <!-- Keyboard Shortcuts Help Modal -->
+    <div id="shortcuts-modal" class="shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title" hidden>
+        <div class="shortcuts-modal-backdrop" tabindex="-1"></div>
+        <div class="shortcuts-modal-content">
+            <div class="shortcuts-modal-header">
+                <h3 id="shortcuts-title" class="shortcuts-title" data-i18n="shortcuts_title">Atajos de teclado</h3>
+                <button type="button" class="shortcuts-close-btn" onclick="closeShortcutsModal()" aria-label="Cerrar ayuda de atajos">
+                    <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+            <div class="shortcuts-list">
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">?</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_show_help">Mostrar esta ayuda</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">j</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_scroll_down">Scroll abajo</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">k</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_scroll_up">Scroll arriba</span>
+                </div>
+                <div class="shortcut-divider"></div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">g</kbd><kbd class="shortcut-key">h</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_go_home">Ir al inicio</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">g</kbd><kbd class="shortcut-key">a</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_go_about">Ir a Sobre mí</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">g</kbd><kbd class="shortcut-key">p</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_go_projects">Ir a Proyectos</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">g</kbd><kbd class="shortcut-key">s</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_go_stack">Ir a Stack</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">g</kbd><kbd class="shortcut-key">t</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_go_timeline">Ir a Trayectoria</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd class="shortcut-key">g</kbd><kbd class="shortcut-key">c</kbd>
+                    <span class="shortcut-desc" data-i18n="shortcut_go_contact">Ir a Contacto</span>
+                </div>
+            </div>
+            <p class="shortcuts-hint" data-i18n="shortcuts_close">Presiona <kbd>Esc</kbd> o clic fuera para cerrar</p>
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="container footer-inner">
