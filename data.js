@@ -55,7 +55,10 @@ const I18N = {
     shortcut_go_timeline: "Ir a Trayectoria",
     shortcut_go_contact: "Ir a Contacto",
     shortcut_show_help: "Mostrar esta ayuda",
-    shortcut_go_about: "Ir a Sobre mí"
+    shortcut_go_about: "Ir a Sobre mí",
+    theme_emerald: "Esmeralda",
+    theme_amber: "Ámbar",
+    theme_white: "Blanco"
 };
 
 const PROJECTS_DATA = [

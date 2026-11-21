@@ -9,6 +9,7 @@
 
 let currentLang = 'es';
 let currentFilter = 'Todos';
+let currentTheme = 'emerald';
 
 // LocalStorage translation cache
 const TRANSLATION_CACHE = JSON.parse(localStorage.getItem('auto_translation_cache') || '{}');
@@ -349,6 +350,26 @@ function setLanguage(lang) {
     if (lang === 'en') {
         translateAllData('en');
     }
+}
+
+// Theme Toggle
+function setTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // Persist theme preference
+    try { localStorage.setItem('preferred_theme', theme); } catch (e) {}
+
+    // Update active button
+    document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`btn-theme-${theme}`);
+    if (activeBtn) activeBtn.classList.add('active');
+}
+
+function initTheme() {
+    const savedTheme = (() => { try { return localStorage.getItem('preferred_theme'); } catch (e) { return null; } })();
+    const theme = savedTheme || 'emerald';
+    setTheme(theme);
 }
 
 // Containers
@@ -977,6 +998,7 @@ document.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
     const savedLang = (() => { try { return localStorage.getItem('preferred_lang'); } catch (e) { return null; } })();
     setLanguage(savedLang === 'en' ? 'en' : 'es');
+    initTheme();
     initSpotlight();
     observeProgressBars();
     initTerminalWindowAnimation();
