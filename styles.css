@@ -734,6 +734,256 @@ code {
 }
 
 /* ========================================================
+   ABOUT SECTION
+   ======================================================== */
+.about-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.about-narrative {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.about-paragraph {
+  font-size: 1.06rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 70ch;
+  margin: 0;
+}
+
+.about-highlights {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  height: fit-content;
+  position: sticky;
+  top: calc(var(--header-height) + 32px);
+}
+
+.about-highlights-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.about-highlights-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about-highlight-item {
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-left: 24px;
+  position: relative;
+}
+
+.about-highlight-item::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 960px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-highlights {
+    position: static;
+  }
+}
+
+/* ========================================================
+   KEYBOARD SHORTCUTS MODAL
+   ======================================================== */
+.shortcuts-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.shortcuts-modal[hidden] {
+  display: none;
+}
+
+.shortcuts-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: backdropFadeIn 160ms var(--ease-snappy);
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.shortcuts-modal-content {
+  position: relative;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 28px 32px;
+  min-width: 320px;
+  max-width: 420px;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6);
+  animation: modalSlideIn 200ms var(--ease-snappy);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.shortcuts-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.shortcuts-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.shortcuts-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.shortcuts-close-btn:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.shortcuts-close-btn:active {
+  transform: scale(0.95);
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.shortcut-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 30px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xs);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.shortcut-row:has(.shortcut-divider) .shortcut-key {
+  /* divider handled separately */
+}
+
+.shortcut-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-dim);
+  margin: 8px 0;
+}
+
+.shortcut-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.shortcuts-hint {
+  margin: 20px 0 0 0;
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.shortcuts-hint kbd {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xs);
+  color: var(--accent);
+}
+
+@media (max-width: 480px) {
+  .shortcuts-modal-content {
+    padding: 20px 20px;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .shortcut-key {
+    min-width: 32px;
+    height: 28px;
+    padding: 0 8px;
+    font-size: 0.72rem;
+  }
+}
+
+/* ========================================================
    PROJECTS SECTION (2x2 BALANCED GRID)
    ======================================================== */
 .filters-bar {

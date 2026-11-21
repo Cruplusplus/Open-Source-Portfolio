@@ -12,6 +12,7 @@ const I18N = {
     nav_projects: "Proyectos",
     nav_stack: "Stack y Habilidades",
     nav_path: "Trayectoria",
+    nav_about: "Sobre mí",
     nav_contact: "Contacto",
     btn_cv: "CV",
     status_badge: "Status: Abierto a oportunidades",
@@ -22,6 +23,7 @@ const I18N = {
     section_projects: "Proyectos Destacados",
     section_stack: "Stack & Habilidades",
     section_path: "Trayectoria",
+    section_about: "Sobre mí",
     footer_text: "Proyecto de portafolio para uso personal open source",
     filter_all: "Todos",
     btn_code: "Ver Repositorio",
@@ -32,7 +34,28 @@ const I18N = {
     btn_copy_email: "Copiar Email",
     contact_view_profile: "Ver perfil",
     contact_view_repo: "Ver repositorios",
-    copied_email: "¡Copiado!"
+    copied_email: "¡Copiado!",
+    // About section
+    about_title: "Sobre mí",
+    about_p1: "Soy Juan Cruz, estudiante de la Tecnicatura Universitaria en Programación en la UTN-FRGP. Mi camino en la programación empezó desde muy chico, a los 11 años, queriendo hacer un juego en Scratch. Más adelante me causaba curiosidad entender cómo funcionaba el software que usaba a diario, y terminé encontrando en el desarrollo de sistemas una forma de pensar y resolver problemas que me apasiona.",
+    about_p2: "Si bien comencé con backend hoy me oriento hacia el desarrollo full-stack y la ingeniería de software porque me gusta conectar toda la punta del sistema: desde la interfaz y la experiencia web hasta la lógica de negocio, las APIs y el modelado de bases de datos. Disfruto trabajando con C#, Python y JavaScript para construir soluciones completas y bien estructuradas, sin perder de vista el rendimiento, el tipado y los fundamentos de C++ cuando hace falta ir más a fondo.",
+    about_p3: "Fuera del material académico me gusta contribuir a documentación open source y experimentar con mi configuración de Fedora (dotfiles, scripting, ricing). Creo que el buen software nace de la claridad, la simplicidad y el respeto por quien lo mantiene.",
+    about_highlights_title: "Tres cosas que no verás en mi CV",
+    about_highlight_1: "Dirijo campañas de Dungeons & Dragons (5e) con mis amigos, diseñando escenarios propios, acertijos, reglas personalizadas y tablas de azar. Improvisar cuando el grupo toma un camino inesperado me entrenó para improvisar, adaptarme rápido y hacer que todo siga funcionando.",
+    about_highlight_2: "Disfruto meter mano donde nadie lo pidió: desde ajustar configuraciones finas y armar experimentos locos de VR casera hasta hacer programas para automatizar tareas diarias. Probar, romper cosas, leer documentación y ver hasta dónde se puede estirar una herramienta es parte de mi forma natural de aprender.",
+    about_highlight_3: "Cuando salgo de la pantalla, me gusta sentarme al piano a practicar patrones rítmicos y componer música. Trabajar compás a compás exige paciencia, constancia y oído para el detalle.",
+    // Keyboard shortcuts help
+    shortcuts_title: "Atajos de teclado",
+    shortcuts_close: "Cerrar (Esc)",
+    shortcut_scroll_down: "Scroll abajo",
+    shortcut_scroll_up: "Scroll arriba",
+    shortcut_go_home: "Ir al inicio",
+    shortcut_go_projects: "Ir a Proyectos",
+    shortcut_go_stack: "Ir a Stack",
+    shortcut_go_timeline: "Ir a Trayectoria",
+    shortcut_go_contact: "Ir a Contacto",
+    shortcut_show_help: "Mostrar esta ayuda",
+    shortcut_go_about: "Ir a Sobre mí"
 };
 
 const PROJECTS_DATA = [

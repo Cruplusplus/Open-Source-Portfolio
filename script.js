@@ -882,6 +882,97 @@ function syncCursorBlink() {
     });
 }
 
+// Keyboard Shortcuts Modal
+let shortcutsSequence = '';
+let shortcutsTimeout = null;
+
+function showShortcutsModal() {
+    const modal = document.getElementById('shortcuts-modal');
+    if (modal) {
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        const closeBtn = modal.querySelector('.shortcuts-close-btn');
+        if (closeBtn) closeBtn.focus();
+    }
+}
+
+function closeShortcutsModal() {
+    const modal = document.getElementById('shortcuts-modal');
+    if (modal) {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+    }
+}
+
+function scrollToSection(selector) {
+    const el = document.querySelector(selector);
+    if (el) {
+        const headerHeight = document.querySelector('.site-header')?.offsetHeight || 68;
+        const top = el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+        window.scrollTo({ top, behavior: 'smooth' });
+    }
+    closeShortcutsModal();
+}
+
+function handleKeyboardShortcuts(e) {
+    const active = document.activeElement;
+    if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) {
+        return;
+    }
+
+    const key = e.key.toLowerCase();
+
+    if (key === '?') {
+        e.preventDefault();
+        showShortcutsModal();
+        return;
+    }
+
+    if (key === 'escape') {
+        closeShortcutsModal();
+        window.closeMobileMenu();
+        return;
+    }
+
+    if (key === 'j') {
+        e.preventDefault();
+        window.scrollBy({ top: 60, behavior: 'smooth' });
+        return;
+    }
+    if (key === 'k') {
+        e.preventDefault();
+        window.scrollBy({ top: -60, behavior: 'smooth' });
+        return;
+    }
+
+    if (key === 'g') {
+        shortcutsSequence = 'g';
+        if (shortcutsTimeout) clearTimeout(shortcutsTimeout);
+        shortcutsTimeout = setTimeout(() => { shortcutsSequence = ''; }, 1000);
+        return;
+    }
+
+    if (shortcutsSequence === 'g') {
+        shortcutsSequence = '';
+        if (shortcutsTimeout) clearTimeout(shortcutsTimeout);
+        switch (key) {
+            case 'h': e.preventDefault(); scrollToSection('#inicio'); break;
+            case 'a': e.preventDefault(); scrollToSection('#sobre-mi'); break;
+            case 'p': e.preventDefault(); scrollToSection('#proyectos'); break;
+            case 's': e.preventDefault(); scrollToSection('#stack'); break;
+            case 't': e.preventDefault(); scrollToSection('#trayectoria'); break;
+            case 'c': e.preventDefault(); scrollToSection('#contacto'); break;
+        }
+    }
+}
+
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('shortcuts-modal');
+    if (modal && !modal.hidden && e.target === modal.querySelector('.shortcuts-modal-backdrop')) {
+        closeShortcutsModal();
+    }
+});
+
 // Initial setup
 document.addEventListener('DOMContentLoaded', () => {
     const savedLang = (() => { try { return localStorage.getItem('preferred_lang'); } catch (e) { return null; } })();
@@ -890,7 +981,8 @@ document.addEventListener('DOMContentLoaded', () => {
     observeProgressBars();
     initTerminalWindowAnimation();
     initHeroTypewriter();
-    
+
+    document.addEventListener('keydown', handleKeyboardShortcuts);
 
     console.log(
         "%c<port/f> Portfolio | Juan Cruz Dominguez Pistoia %c\nFull-Stack & Systems Engineering // UTN-FRGP",
