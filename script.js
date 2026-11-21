@@ -349,6 +349,9 @@ function setLanguage(lang) {
     if (lang === 'en') {
         translateAllData('en');
     }
+
+    // Force re-render About section to guarantee content visibility
+    updateAboutSection();
 }
 
 // Containers
@@ -594,6 +597,18 @@ function renderTimeline() {
         lucide.createIcons();
     }
     observeProgressBars();
+}
+
+// Force About section content update (fallback for i18n timing issues)
+function updateAboutSection() {
+    const keys = ['about_p1', 'about_p2', 'about_p3', 'about_highlight_1', 'about_highlight_2', 'about_highlight_3', 'about_highlights_title'];
+    keys.forEach(key => {
+        const el = document.querySelector(`[data-i18n="${key}"]`);
+        if (el) {
+            const text = getI18nText(key);
+            if (text) el.innerHTML = text;
+        }
+    });
 }
 
 // Mobile drawer controls
